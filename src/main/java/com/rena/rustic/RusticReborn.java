@@ -3,6 +3,9 @@ package com.rena.rustic;
 import com.mojang.logging.LogUtils;
 import com.rena.rustic.core.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +21,7 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file

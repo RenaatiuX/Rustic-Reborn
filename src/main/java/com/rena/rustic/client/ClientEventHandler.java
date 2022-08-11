@@ -23,7 +23,7 @@ public class ClientEventHandler {
     public static void mouseMoved(InputEvent.MouseScrollEvent event){
         if(Minecraft.getInstance() != null) {
             Player player = Minecraft.getInstance().player;
-            if (player != null && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == BlockInit.VASE.get().asItem() && event.getScrollDelta() > 0){
+            if (player != null && player.isShiftKeyDown() && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == BlockInit.VASE.get().asItem() && event.getScrollDelta() > 0){
                 event.setCanceled(true);
 
                 int variant = (int) ((VaseItem.getVariant(player.getItemInHand(InteractionHand.MAIN_HAND)) - BlockVase.MIN_VARIANT

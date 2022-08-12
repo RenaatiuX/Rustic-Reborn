@@ -1,8 +1,8 @@
 {
 	"variants": {
-		"facing=north":	{ "model": "rustic:apiary" },
-		"facing=east":	{ "model": "rustic:apiary", "y": 90},
-		"facing=south":	{ "model": "rustic:apiary", "y": 180 },
-		"facing=west":	{ "model": "rustic:apiary", "y": 270 }
+		"facing=north":	{ "model": "rustic:block/apiary" },
+		"facing=east":	{ "model": "rustic:block/apiary", "y": 90},
+		"facing=south":	{ "model": "rustic:block/apiary", "y": 180 },
+		"facing=west":	{ "model": "rustic:block/apiary", "y": 270 }
 	}
 }

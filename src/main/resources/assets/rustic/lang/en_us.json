@@ -1,0 +1,16 @@
+{
+  "_comment":"blocks",
+  "block.rustic.vase": "Vase",
+
+  "_comment": "items",
+  "item.rustic.vase": "Vase",
+
+  "_comment": "Container",
+  "rustic.container.vase": "Vase",
+
+  "_comment": "CreativeTabs",
+  "itemGroup.farming_tab": "Farming",
+
+  "_comment": "Tooltips",
+  "rustic.tooltip.vase.variant": "Variant: %s"
+}

@@ -3,6 +3,8 @@ package com.rena.rustic.client;
 import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.block.BlockVase;
 import com.rena.rustic.common.item.VaseItem;
+import com.rena.rustic.common.network.RusticNetwork;
+import com.rena.rustic.common.network.VariantPackage;
 import com.rena.rustic.core.BlockInit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
@@ -23,16 +25,16 @@ public class ClientEventHandler {
     public static void mouseMoved(InputEvent.MouseScrollEvent event){
         if(Minecraft.getInstance() != null) {
             Player player = Minecraft.getInstance().player;
-            if (player != null && player.isShiftKeyDown() && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == BlockInit.VASE.get().asItem() && event.getScrollDelta() > 0){
+            if (player != null && player.isShiftKeyDown() && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == BlockInit.VASE.get().asItem()){
                 event.setCanceled(true);
-
-                int variant = (int) ((VaseItem.getVariant(player.getItemInHand(InteractionHand.MAIN_HAND)) - BlockVase.MIN_VARIANT
-                                        + (event.getScrollDelta() / 120)) % (BlockVase.MAX_VARIANT - BlockVase.MIN_VARIANT + 1)
-                                        + BlockVase.MIN_VARIANT);
+                int variant = (int) (VaseItem.getVariant(player.getItemInHand(InteractionHand.MAIN_HAND)) + event.getScrollDelta());
                 if (variant < BlockVase.MIN_VARIANT) {
                     variant = BlockVase.MAX_VARIANT;
+                } else if (variant > BlockVase.MAX_VARIANT){
+                    variant = BlockVase.MIN_VARIANT;
                 }
                 VaseItem.setVariant(player.getItemInHand(InteractionHand.MAIN_HAND), variant);
+                RusticNetwork.CHANNEL.sendToServer(new VariantPackage(variant));
             }
         }
     }

@@ -1,7 +1,9 @@
 package com.rena.rustic.core;
 
 import com.rena.rustic.RusticReborn;
+import com.rena.rustic.common.block.BlockApiary;
 import com.rena.rustic.common.block.BlockVase;
+import com.rena.rustic.common.item.VaseItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -17,7 +19,8 @@ public class BlockInit {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, RusticReborn.MOD_ID);
 
-    public static final RegistryObject<BlockVase> VASE = register("vase", BlockVase::new, CreativeModeTab.TAB_BREWING);
+    public static final RegistryObject<BlockVase> VASE = register("vase", BlockVase::new, VaseItem::new);
+    public static final RegistryObject<BlockApiary> APIARY = register("apiary", BlockApiary::new, ModTabs.FARMING_TAB);
 
     public static final <T extends Block>RegistryObject<T> register(String name, Supplier<T> block, Function<Block, Item> blockItem){
             RegistryObject<T> finalBlock = BLOCKS.register(name, block);
@@ -26,8 +29,6 @@ public class BlockInit {
     }
 
     public static final <T extends Block>RegistryObject<T> register(String name, Supplier<T> block, CreativeModeTab tab){
-        RegistryObject<T> finalBlock = BLOCKS.register(name, block);
-        ItemInit.ITEMS.register(name, () -> new BlockItem(finalBlock.get(), new Item.Properties().tab(tab)));
-        return finalBlock;
+        return register(name, block, b -> new BlockItem(b, new Item.Properties().tab(tab)));
     }
 }

@@ -1,5 +1,6 @@
 package com.rena.rustic.common.block;
 
+import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.block_entity.VaseTileEntity;
 import com.rena.rustic.common.item.VaseItem;
 import io.netty.handler.codec.mqtt.MqttProperties;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
@@ -34,7 +36,7 @@ public class BlockVase extends Block implements EntityBlock {
     public static final int MAX_VARIANT = 5, MIN_VARIANT = 0;
 
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", MIN_VARIANT, MAX_VARIANT);
-    protected static final VoxelShape SHAPE = Shapes.create(16d * 0.125D, 0.0D, 16d * 0.125D, 16d * 0.875D, 16D, 16d * 0.875D);
+    protected static final VoxelShape SHAPE = Shapes.create(0.125D, 0.0D, 0.125D, 0.875D, 1D, 0.875D);
 
     public BlockVase() {
         super(BlockBehaviour.Properties.of(Material.STONE).strength(0.5f, 0));
@@ -47,6 +49,7 @@ public class BlockVase extends Block implements EntityBlock {
             VaseTileEntity te = (VaseTileEntity) level.getBlockEntity(pos);
             if (te != null && player instanceof ServerPlayer) {
                 NetworkHooks.openGui((ServerPlayer) player, te, pos);
+                return InteractionResult.SUCCESS;
             }
         }
         return InteractionResult.PASS;
@@ -55,7 +58,7 @@ public class BlockVase extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return null;
+        return new VaseTileEntity(pPos, pState);
     }
 
     @Override
@@ -64,9 +67,16 @@ public class BlockVase extends Block implements EntityBlock {
     }
 
     @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        super.createBlockStateDefinition(pBuilder);
+        pBuilder.add(VARIANT);
+    }
+
+    @Override
     public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
-        pState.setValue(VARIANT, VaseItem.getVariant(pStack) < 0 ? 0 : VaseItem.getVariant(pStack));
-        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
+        if (!pLevel.isClientSide()) {
+            pLevel.setBlock(pPos, pState.setValue(VARIANT, VaseItem.getVariant(pStack)), 3);
+        }
     }
 
     @Nullable

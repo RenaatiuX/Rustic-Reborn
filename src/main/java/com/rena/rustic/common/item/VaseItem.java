@@ -1,9 +1,20 @@
 package com.rena.rustic.common.item;
 
+import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.block.BlockVase;
+import com.rena.rustic.core.BlockInit;
+import com.rena.rustic.core.ModTabs;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class VaseItem extends BlockItem {
     public static final int getVariant(ItemStack stack){
@@ -19,9 +30,13 @@ public class VaseItem extends BlockItem {
         stack.getOrCreateTag().putInt("variant", variant);
     }
 
-    public VaseItem(Block pBlock, Properties pProperties) {
-        super(pBlock, pProperties);
+    public VaseItem(Block b) {
+        super(b, new Item.Properties().tab(ModTabs.FARMING_TAB));
     }
 
-
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+        pTooltip.add(new TranslatableComponent(RusticReborn.MOD_ID + ".tooltip.vase.variant", getVariant(pStack)));
+        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+    }
 }

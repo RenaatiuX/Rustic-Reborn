@@ -1,6 +1,9 @@
 package com.rena.rustic;
 
 import com.mojang.logging.LogUtils;
+import com.rena.rustic.client.ClientSetup;
+import com.rena.rustic.common.config.RusticConfig;
+import com.rena.rustic.common.network.RusticNetwork;
 import com.rena.rustic.core.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -13,7 +16,9 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -37,10 +42,12 @@ public class RusticReborn
 
     public RusticReborn()
     {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, RusticConfig.init());
 
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the setup method for modloading
         modBus.addListener(this::setup);
+        modBus.addListener(ClientSetup::setRenderLayers);
 
         ItemInit.ITEMS.register(modBus);
         BlockInit.BLOCKS.register(modBus);
@@ -52,9 +59,11 @@ public class RusticReborn
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
-
+    private void setup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            RusticNetwork.init();
+        });
     }
+
 
 }

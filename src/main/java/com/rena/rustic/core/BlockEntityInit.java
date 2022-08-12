@@ -2,6 +2,7 @@ package com.rena.rustic.core;
 
 import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.block_entity.ApiaryTileEntity;
+import com.rena.rustic.common.block_entity.CrushingTubTileEntitiy;
 import com.rena.rustic.common.block_entity.VaseTileEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -13,5 +14,6 @@ public class BlockEntityInit {
 
     public static final RegistryObject<BlockEntityType<VaseTileEntity>> VASE_BLOCK_ENTITY = TES.register("vase", () -> BlockEntityType.Builder.of(VaseTileEntity::new, BlockInit.VASE.get()).build(null));
     public static final RegistryObject<BlockEntityType<ApiaryTileEntity>> APIARY_TILE_ENTITY = TES.register("apiary", () -> BlockEntityType.Builder.of(ApiaryTileEntity::new, BlockInit.APIARY.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CrushingTubTileEntitiy>> CRUSHING_TUB_TILE_ENTITY = TES.register("crushing_tub", () -> BlockEntityType.Builder.of(CrushingTubTileEntitiy::new, BlockInit.CRUSHING_TUB.get()).build(null));
 
 }

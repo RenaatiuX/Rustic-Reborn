@@ -16,5 +16,6 @@ public class ItemInit {
 
     public static final RegistryObject<BucketItem> OLIVE_OIL_BUCKET = ITEMS.register("olive_oil_bucket", () -> new BucketItem(() -> FluidInit.OLIVE_OIL_SOURCE.get(), new Item.Properties().tab(ModTabs.FARMING_TAB).stacksTo(1)));
     public static final RegistryObject<BucketItem> IRONBERRY_JUICE_BUCKET = ITEMS.register("ironberry_juice_bucket", () -> new BucketItem(() -> FluidInit.IRONBERRY_JUICE_STILL.get(), new Item.Properties().tab(ModTabs.FARMING_TAB).stacksTo(1)));
+    public static final RegistryObject<BucketItem> APPLE_JUICE_BUCKET = ITEMS.register("apple_juice_bucket", () -> new BucketItem(() -> FluidInit.APPLE_JUICE_SOURCE.get(), new Item.Properties().tab(ModTabs.FARMING_TAB).stacksTo(1)));
 
 }

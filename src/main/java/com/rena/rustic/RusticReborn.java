@@ -3,11 +3,13 @@ package com.rena.rustic;
 import com.mojang.logging.LogUtils;
 import com.rena.rustic.client.ClientSetup;
 import com.rena.rustic.common.config.RusticConfig;
+import com.rena.rustic.common.datagen.DataGatherer;
 import com.rena.rustic.common.network.RusticNetwork;
 import com.rena.rustic.core.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -48,6 +50,8 @@ public class RusticReborn
         // Register the setup method for modloading
         modBus.addListener(this::setup);
         modBus.addListener(ClientSetup::setRenderLayers);
+        modBus.addGenericListener(RecipeSerializer.class, RecipeInit::registerRecipes);
+        modBus.addListener(DataGatherer::gatherData);
 
         ItemInit.ITEMS.register(modBus);
         BlockInit.BLOCKS.register(modBus);
@@ -56,7 +60,7 @@ public class RusticReborn
         ContainerInit.CONTAINERS.register(modBus);
 
         // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+        //MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(final FMLCommonSetupEvent event) {

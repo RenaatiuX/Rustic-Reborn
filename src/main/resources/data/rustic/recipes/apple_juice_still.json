@@ -1,0 +1,10 @@
+{
+  "type": "rustic:crushing_tub",
+  "fruit": {
+    "item": "minecraft:apple"
+  },
+  "fluid": {
+    "fluid": "rustic:apple_juice_still",
+    "count": 200
+  }
+}

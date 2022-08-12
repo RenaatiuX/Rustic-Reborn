@@ -1,0 +1,34 @@
+{
+  "parent": "rustic:recipes/root",
+  "rewards": {
+    "recipes": [
+      "rustic:apple_juice_still"
+    ]
+  },
+  "criteria": {
+    "penis": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:apple"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "rustic:apple_juice_still"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "penis",
+      "has_the_recipe"
+    ]
+  ]
+}

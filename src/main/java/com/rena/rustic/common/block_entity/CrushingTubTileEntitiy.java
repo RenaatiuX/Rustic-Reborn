@@ -163,10 +163,18 @@ public class CrushingTubTileEntitiy extends BlockEntity implements Container {
         }
         return true;
     }
-    public int getCapacity(){
+    public int getAmount(){
         int cap = 0;
         for (int i = 0;i<this.tank.getTanks();i++){
             cap += this.tank.getFluidInTank(i).getAmount();
+        }
+        return cap;
+    }
+
+    public int getCapacity(){
+        int cap = 0;
+        for (int i = 0;i<this.tank.getTanks();i++){
+            cap += this.tank.getTankCapacity(i);
         }
         return cap;
     }

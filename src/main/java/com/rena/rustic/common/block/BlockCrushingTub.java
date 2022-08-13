@@ -36,7 +36,7 @@ public class BlockCrushingTub extends Block implements EntityBlock {
     protected static final VoxelShape TUB_AABB = Shapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D);
 
     public BlockCrushingTub() {
-        super(BlockBehaviour.Properties.of(Material.WOOD).strength(1.5f).sound(SoundType.WOOD));
+        super(BlockBehaviour.Properties.of(Material.WOOD).strength(1.5f).sound(SoundType.WOOD).dynamicShape().noOcclusion());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class BlockCrushingTub extends Block implements EntityBlock {
                     te.blockUpdate();
                     te.setChanged();
                     return InteractionResult.SUCCESS;
-                } else if (pPlayer.isShiftKeyDown() && te.getCapacity() > 0) {
+                } else if (pPlayer.isShiftKeyDown() && te.getAmount() > 0) {
                     te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(h -> {
                         for (int i = 0; i < h.getTanks(); i++) {
                             FluidStack drained = h.drain(h.getTankCapacity(i), IFluidHandler.FluidAction.EXECUTE);

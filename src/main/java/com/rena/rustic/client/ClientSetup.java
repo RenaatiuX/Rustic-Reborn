@@ -21,6 +21,9 @@ public class ClientSetup {
         ItemBlockRenderTypes.setRenderLayer(FluidInit.IRONBERRY_JUICE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(FluidInit.IRONBERRY_JUICE_STILL.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(FluidInit.IRONBERRY_JUICE_FLOWING.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(FluidInit.APPLE_JUICE_SOURCE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(FluidInit.APPLE_JUICE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(FluidInit.APPLE_JUICE_FLOWING.get(), RenderType.translucent());
 
         ItemBlockRenderTypes.setRenderLayer(BlockInit.CRUSHING_TUB.get(), RenderType.translucent());
 

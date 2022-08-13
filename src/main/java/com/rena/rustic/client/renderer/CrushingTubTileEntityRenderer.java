@@ -2,9 +2,15 @@ package com.rena.rustic.client.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.rena.rustic.RusticReborn;
+import com.rena.rustic.client.renderer.util.FluidRenderTypes;
+import com.rena.rustic.client.renderer.util.FluidUtils;
+import com.rena.rustic.client.renderer.util.RenderResizableCuboid;
+import com.rena.rustic.client.renderer.util.RenderUtils;
 import com.rena.rustic.common.block_entity.CrushingTubTileEntitiy;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -12,18 +18,16 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 
 import java.util.Random;
 
 public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<CrushingTubTileEntitiy> {
 
     private final BlockEntityRendererProvider.Context ctx;
+    private float minU, minV, maxU, maxV, diffU, diffV;
 
     public CrushingTubTileEntityRenderer(BlockEntityRendererProvider.Context ctx) {
         this.ctx = ctx;
@@ -48,35 +52,46 @@ public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<Crushi
             }
         }
         if (te.getTank().getFluidAmount() > 0) {
+            FluidStack fluid = te.getTank().getFluidInTank(0);
+            if (fluid.isEmpty()) {
+                return;
+            }
             pPoseStack.pushPose();
-            FluidStack stack = te.getTank().getFluid();
-            int amount = stack.getAmount();
-            int capacity = te.getTank().getCapacity();
-            ResourceLocation stillTexture = stack.getFluid().getAttributes().getStillTexture(stack);
-            TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTexture);
-            int c = stack.getFluid().getAttributes().getColor();
+            int capacity = te.getCapacity();
+            int amount = te.getAmount();
+            /*
+            int c = fluid.getFluid().getAttributes().getColor();
             int blue = c & 0xFF;
             int green = (c >> 8) & 0xFF;
             int red = (c >> 16) & 0xFF;
             int a = (c >> 24) & 0xFF;
 
-            float minU = sprite.getU0();
-            float maxU = sprite.getU1();
-            float minV = sprite.getV0();
-            float maxV = sprite.getV1();
+            TextureAtlasSprite sprite = FluidUtils.getFluidTexture(fluid, FluidUtils.FluidType.STILL);
 
+            if (sprite == null) return;
 
-            int i = Minecraft.getInstance().level.getLightEngine().getRawBrightness(te.getBlockPos(), stack.getFluid().getAttributes().getLuminosity());
-            int lightx = i >> 0x10 & 0xFFFF;
-            int lighty = i & 0xFFFF;
+            diffU = maxU - minU;
+            diffV = maxV - minV;
+
+            minU = sprite.getU0() + diffU * 0.0625f;
+            maxU = sprite.getU1() - diffU * 0.0625f;
+            minV = sprite.getV0() + diffV * 0.0625f;
+            maxV = sprite.getV1() - diffV * 0.0625f;
+            int light = RenderUtils.calculateGlowLight(pPackedLight, fluid);
+            pPoseStack.translate(0, 1, 0);
+            Matrix4f calc = pPoseStack.last().pose();
+            VertexConsumer buffer = pBufferSource.getBuffer(RenderType.solid());
+            buffer.vertex(calc, 0.0625f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.0625f).color(red, green, blue, a).uv(minU, minV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
+            buffer.vertex(calc, 0.9375f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.0625f).color(red, green, blue, a).uv(maxU, minV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
+            buffer.vertex(calc, 0.9375f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.9375f).color(red, green, blue, a).uv(maxU, maxV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
+            buffer.vertex(calc, 0.0625f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.9375f).color(red, green, blue, a).uv(minU, maxV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
+            pPoseStack.popPose();*/
             RenderSystem.enableBlend();
-            RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-            RenderSystem.setShaderColor(red, green, blue, a);
-            VertexConsumer consumer = pBufferSource.getBuffer(RenderType.translucent());
-            consumer.vertex(pPoseStack.last().pose(), 0.0625f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.0625f).uv(minU, minV).normal(1, 0,0).uv2(lightx, lighty).color(red, green, blue, a);
-            consumer.vertex(pPoseStack.last().pose(), 0.9375f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.0625f).uv(maxU, minV).normal(1, 0,0).uv2(lightx, lighty).color(red, green, blue, a);
-            consumer.vertex(pPoseStack.last().pose(), 0.9375f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.9375f).uv(maxU, maxV).normal(1, 0,0).uv2(lightx, lighty).color(red, green, blue, a);
-            consumer.vertex(pPoseStack.last().pose(), 0.0625f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.9375f).uv(minU, maxV).normal(1, 0,0).uv2(lightx, lighty).color(red, green, blue, a);
+            VertexConsumer buffer = pBufferSource.getBuffer(RenderType.tripwire());
+            pPoseStack.scale(1F, 0.5f*((float)amount/(float)capacity), 1F);
+            RenderResizableCuboid.INSTANCE.renderCubeTop(FluidUtils.getFluidModel(fluid, FluidUtils.STAGES - 1),
+                    pPoseStack, buffer, RenderUtils.getColorARGB(fluid, 0.1F),
+                    RenderUtils.calculateGlowLight(pPackedLight, fluid), pPackedOverlay);
             RenderSystem.disableBlend();
             pPoseStack.popPose();
         }

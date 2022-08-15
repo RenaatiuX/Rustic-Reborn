@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
 public class ChiliPepperItem extends Item {
@@ -30,15 +29,5 @@ public class ChiliPepperItem extends Item {
         pLivingEntity.hurt(DamageSource.ON_FIRE, 1.0F);
         pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 400));
         return super.finishUsingItem(pStack, pLevel, pLivingEntity);
-    }
-
-    @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
-        return UseAnim.EAT;
-    }
-
-    @Override
-    public int getUseDuration(ItemStack pStack) {
-        return 32;
     }
 }

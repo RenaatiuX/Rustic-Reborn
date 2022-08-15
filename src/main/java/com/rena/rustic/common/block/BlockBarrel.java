@@ -60,7 +60,7 @@ public class BlockBarrel extends Block implements EntityBlock {
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+        return InteractionResult.CONSUME;
     }
 
     @Override

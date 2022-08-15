@@ -1,6 +1,7 @@
 package com.rena.rustic.core;
 
 import com.rena.rustic.RusticReborn;
+import com.rena.rustic.common.recipes.BrewingRecipe;
 import com.rena.rustic.common.recipes.CrushingTubRecipe;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -12,10 +13,12 @@ import net.minecraftforge.event.RegistryEvent;
 public class RecipeInit {
 
     public static final RecipeType<CrushingTubRecipe> CRUSHING_TUB_RECIPE = register("crushing_tub");
+    public static final RecipeType<BrewingRecipe> BREWING_RECIPE = register("brewing_recipe");
 
 
     public static void registerRecipes(RegistryEvent.Register<RecipeSerializer<?>> event) {
         registerRecipe(event, CRUSHING_TUB_RECIPE, CrushingTubRecipe.SERIALIZER);
+        registerRecipe(event, BREWING_RECIPE, BrewingRecipe.SERIALIZER);
     }
 
 

@@ -1,9 +1,10 @@
 package com.rena.rustic.core;
 
 import com.rena.rustic.RusticReborn;
-import com.rena.rustic.common.block_entity.ApiaryTileEntity;
-import com.rena.rustic.common.block_entity.CrushingTubTileEntitiy;
-import com.rena.rustic.common.block_entity.VaseTileEntity;
+import com.rena.rustic.common.block.BlockBarrel;
+import com.rena.rustic.common.block_entity.*;
+import net.minecraft.world.level.block.entity.BarrelBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -15,5 +16,7 @@ public class BlockEntityInit {
     public static final RegistryObject<BlockEntityType<VaseTileEntity>> VASE_BLOCK_ENTITY = TES.register("vase", () -> BlockEntityType.Builder.of(VaseTileEntity::new, BlockInit.VASE.get()).build(null));
     public static final RegistryObject<BlockEntityType<ApiaryTileEntity>> APIARY_TILE_ENTITY = TES.register("apiary", () -> BlockEntityType.Builder.of(ApiaryTileEntity::new, BlockInit.APIARY.get()).build(null));
     public static final RegistryObject<BlockEntityType<CrushingTubTileEntitiy>> CRUSHING_TUB_TILE_ENTITY = TES.register("crushing_tub", () -> BlockEntityType.Builder.of(CrushingTubTileEntitiy::new, BlockInit.CRUSHING_TUB.get()).build(null));
+    public static final RegistryObject<BlockEntityType<BarrelTileEntity>> BARRELTILE_ENTITY = TES.register("barrel", () -> BlockEntityType.Builder.of(BarrelTileEntity::new, BlockInit.BARREL.get()).build(null));
+    public static final RegistryObject<BlockEntityType<BrewingBarrelTileEntity>> BREWING_BARREL_TILE_ENTITY = TES.register("brewing_barrel", () -> BlockEntityType.Builder.of(BrewingBarrelTileEntity::new, BlockInit.BREWING_BARREL.get()).build(null));
 
 }

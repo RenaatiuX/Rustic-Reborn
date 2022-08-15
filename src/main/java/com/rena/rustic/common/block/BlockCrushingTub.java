@@ -1,5 +1,6 @@
 package com.rena.rustic.common.block;
 
+import com.rena.rustic.common.block_entity.BarrelTileEntity;
 import com.rena.rustic.common.block_entity.CrushingTubTileEntitiy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -100,6 +101,17 @@ public class BlockCrushingTub extends Block implements EntityBlock {
             }
         }
         super.fallOn(pLevel, pState, pPos, pEntity, p_152430_);
+    }
+
+    @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        if (!pState.is(pNewState.getBlock())){
+            CrushingTubTileEntitiy te = (CrushingTubTileEntitiy) pLevel.getBlockEntity(pPos);
+            if (te != null) {
+                Containers.dropContents(pLevel, pPos, te);
+            }
+        }
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
     @Override

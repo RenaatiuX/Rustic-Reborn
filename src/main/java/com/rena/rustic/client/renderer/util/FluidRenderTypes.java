@@ -14,7 +14,7 @@ public class FluidRenderTypes extends RenderType {
 
     public static final RenderType RESIZABLE = RenderType.create(RusticReborn.MOD_ID + ":resizable_cuboid", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 256, true, false,
             RenderType.CompositeState.builder()
-                    .setShaderState(RenderType.RENDERTYPE_SOLID_SHADER)
+                    .setShaderState(RenderType.RENDERTYPE_TRANSLUCENT_SHADER)
                     .setTextureState(new RenderStateShard.TextureStateShard(InventoryMenu.BLOCK_ATLAS, false, false))
                     .setCullState(CULL)
                     .setLightmapState(LIGHTMAP)

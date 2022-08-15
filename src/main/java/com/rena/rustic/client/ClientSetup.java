@@ -2,14 +2,15 @@ package com.rena.rustic.client;
 
 import com.rena.rustic.client.renderer.CrushingTubTileEntityRenderer;
 import com.rena.rustic.client.screens.ApiaryScreen;
-import com.rena.rustic.core.BlockEntityInit;
-import com.rena.rustic.core.BlockInit;
-import com.rena.rustic.core.ContainerInit;
-import com.rena.rustic.core.FluidInit;
+import com.rena.rustic.common.item.VaseItem;
+import com.rena.rustic.core.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.data.models.ModelProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientSetup {
@@ -30,5 +31,8 @@ public class ClientSetup {
         MenuScreens.register(ContainerInit.APIARY_CONTAINER.get(), ApiaryScreen::new);
 
         BlockEntityRenderers.register(BlockEntityInit.CRUSHING_TUB_TILE_ENTITY.get(), CrushingTubTileEntityRenderer::new);
+
+        ItemProperties.register(BlockInit.VASE.get().asItem(), new ResourceLocation("variant"), (stack, clientWorld, living, another) -> VaseItem.getVariant(stack));
+
     }
 }

@@ -1,9 +1,11 @@
 package com.rena.rustic.common.block;
 
 import com.rena.rustic.common.block_entity.ApiaryTileEntity;
+import com.rena.rustic.common.block_entity.BarrelTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -35,6 +37,17 @@ public class BlockApiary extends HorizontalDirectionalBlock implements EntityBlo
             }
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+    }
+
+    @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        if (!pState.is(pNewState.getBlock())){
+            ApiaryTileEntity te = (ApiaryTileEntity) pLevel.getBlockEntity(pPos);
+            if (te != null) {
+                Containers.dropContents(pLevel, pPos, te);
+            }
+        }
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
     @Nullable

@@ -1,3 +1,11 @@
 {
-	"parent": "rustic:block/vase_0"
+	"parent": "rustic:block/vase_0",
+	"overrides": [
+		{ "predicate": { "variant": 0 }, "model": "rustic:item/vase" },
+		{ "predicate": { "variant": 1 }, "model": "rustic:item/vase_1" },
+		{ "predicate": { "variant": 2 }, "model": "rustic:item/vase_2" },
+		{ "predicate": { "variant": 3 }, "model": "rustic:item/vase_3" },
+		{ "predicate": { "variant": 4 }, "model": "rustic:item/vase_4" },
+		{ "predicate": { "variant": 5 }, "model": "rustic:item/vase_5" }
+	]
 }

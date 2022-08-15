@@ -87,7 +87,7 @@ public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<Crushi
             buffer.vertex(calc, 0.0625f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.9375f).color(red, green, blue, a).uv(minU, maxV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
             pPoseStack.popPose();*/
             RenderSystem.enableBlend();
-            VertexConsumer buffer = pBufferSource.getBuffer(RenderType.tripwire());
+            VertexConsumer buffer = pBufferSource.getBuffer(FluidRenderTypes.RESIZABLE);
             pPoseStack.scale(1F, 0.5f*((float)amount/(float)capacity), 1F);
             RenderResizableCuboid.INSTANCE.renderCubeTop(FluidUtils.getFluidModel(fluid, FluidUtils.STAGES - 1),
                     pPoseStack, buffer, RenderUtils.getColorARGB(fluid, 0.1F),

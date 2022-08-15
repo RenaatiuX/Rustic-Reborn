@@ -33,10 +33,4 @@ public class VaseItem extends BlockItem {
     public VaseItem(Block b) {
         super(b, new Item.Properties().tab(ModTabs.FARMING_TAB));
     }
-
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
-        pTooltip.add(new TranslatableComponent(RusticReborn.MOD_ID + ".tooltip.vase.variant", getVariant(pStack)));
-        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
-    }
 }

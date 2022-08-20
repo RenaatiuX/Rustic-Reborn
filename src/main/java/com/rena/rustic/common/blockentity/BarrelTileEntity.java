@@ -1,4 +1,4 @@
-package com.rena.rustic.common.block_entity;
+package com.rena.rustic.common.blockentity;
 
 import com.rena.rustic.RusticReborn;
 import com.rena.rustic.core.BlockEntityInit;
@@ -14,10 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -26,47 +23,25 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class VaseTileEntity extends BlockEntity implements Container, MenuProvider {
+public class BarrelTileEntity extends BlockEntity implements Container, MenuProvider {
 
-    private ItemStackHandler inventory = new ItemStackHandler(27) {
+    private Component displayName = getDefaultName();
+    private boolean hasCustomName = false;
+    private ItemStackHandler inventory = new ItemStackHandler(27){
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            VaseTileEntity.this.setChanged();
+            BarrelTileEntity.this.setChanged();
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return super.isItemValid(slot, stack);
         }
     };
 
-    public VaseTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(BlockEntityInit.VASE_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
-    }
-
-    public void serverTick() {
-
-    }
-
-    public void clientTick() {
-
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put("items", this.inventory.serializeNBT());
-    }
-
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.inventory.deserializeNBT(tag.getCompound("items"));
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return LazyOptional.of(() -> this.inventory).cast();
-        }
-        return super.getCapability(cap, side);
+    public BarrelTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+        super(BlockEntityInit.BARRELTILE_ENTITY.get(), pWorldPosition, pBlockState);
     }
 
     @Override
@@ -96,7 +71,7 @@ public class VaseTileEntity extends BlockEntity implements Container, MenuProvid
 
     @Override
     public ItemStack removeItemNoUpdate(int pIndex) {
-        return this.inventory.extractItem(pIndex, 1, false);
+        return this.inventory.extractItem(pIndex, 64, false);
     }
 
     @Override
@@ -112,18 +87,66 @@ public class VaseTileEntity extends BlockEntity implements Container, MenuProvid
     @Override
     public void clearContent() {
         for (int i = 0; i < this.inventory.getSlots(); i++) {
-            this.inventory.setStackInSlot(i, ItemStack.EMPTY);
+            if (!this.inventory.getStackInSlot(i).isEmpty()) {
+                setItem(i, ItemStack.EMPTY);
+            }
         }
+    }
+
+    public ItemStackHandler getInventory() {
+        return inventory;
+    }
+
+    @NotNull
+    @Override
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
+            return LazyOptional.of(() -> this.inventory).cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    protected Component getDefaultName(){
+        return new TranslatableComponent(RusticReborn.MOD_ID + ".container.barrel");
     }
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent(RusticReborn.MOD_ID + ".container.vase");
+        return this.displayName;
+    }
+
+    public void setDisplayName(Component displayName) {
+        this.displayName = displayName;
+        this.hasCustomName = true;
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
+        pTag.put("inventory", this.inventory.serializeNBT());
+        pTag.putBoolean("hasCustomName", this.hasCustomName);
+        if (this.displayName != null) {
+            pTag.putString("CustomName", Component.Serializer.toJson(this.displayName));
+        }
+    }
+
+    @Override
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
+        this.inventory.deserializeNBT(pTag.getCompound("inventory"));
+        this.hasCustomName = pTag.getBoolean("hasCustomName");
+        if (hasCustomName){
+            this.displayName = Component.Serializer.fromJson(pTag.getString("CustomName"));
+        }
     }
 
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
         return ChestMenu.threeRows(pContainerId, pInventory, this);
+    }
+
+    public boolean hasCustomName() {
+        return hasCustomName;
     }
 }

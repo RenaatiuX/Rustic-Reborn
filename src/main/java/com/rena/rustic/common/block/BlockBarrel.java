@@ -1,9 +1,8 @@
 package com.rena.rustic.common.block;
 
-import com.rena.rustic.common.block_entity.BarrelTileEntity;
+import com.rena.rustic.common.blockentity.BarrelTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

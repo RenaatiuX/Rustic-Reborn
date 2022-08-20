@@ -1,7 +1,7 @@
 package com.rena.rustic.common.recipes;
 
 import com.google.gson.JsonObject;
-import com.rena.rustic.common.block_entity.BrewingBarrelTileEntity;
+import com.rena.rustic.common.blockentity.BrewingBarrelTileEntity;
 import com.rena.rustic.core.RecipeInit;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

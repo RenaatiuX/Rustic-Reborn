@@ -1,6 +1,6 @@
 package com.rena.rustic.common.block;
 
-import com.rena.rustic.common.block_entity.ApiaryTileEntity;
+import com.rena.rustic.common.blockentity.ApiaryTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;

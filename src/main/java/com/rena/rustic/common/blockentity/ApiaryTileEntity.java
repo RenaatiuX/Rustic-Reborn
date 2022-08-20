@@ -1,4 +1,4 @@
-package com.rena.rustic.common.block_entity;
+package com.rena.rustic.common.blockentity;
 
 import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.config.RusticConfig;
@@ -28,8 +28,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.awt.*;
 
 public class ApiaryTileEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
 

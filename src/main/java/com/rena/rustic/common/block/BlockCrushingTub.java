@@ -1,7 +1,6 @@
 package com.rena.rustic.common.block;
 
-import com.rena.rustic.common.block_entity.BarrelTileEntity;
-import com.rena.rustic.common.block_entity.CrushingTubTileEntitiy;
+import com.rena.rustic.common.blockentity.CrushingTubTileEntitiy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.data.models.ModelProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientSetup {
@@ -35,4 +36,5 @@ public class ClientSetup {
         ItemProperties.register(BlockInit.VASE.get().asItem(), new ResourceLocation("variant"), (stack, clientWorld, living, another) -> VaseItem.getVariant(stack));
 
     }
+
 }

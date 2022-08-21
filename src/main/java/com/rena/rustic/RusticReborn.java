@@ -6,6 +6,7 @@ import com.rena.rustic.common.config.RusticConfig;
 import com.rena.rustic.common.datagen.DataGatherer;
 import com.rena.rustic.common.network.RusticNetwork;
 import com.rena.rustic.core.*;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +14,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -58,6 +61,7 @@ public class RusticReborn
         FluidInit.FLUIDS.register(modBus);
         BlockEntityInit.TES.register(modBus);
         ContainerInit.CONTAINERS.register(modBus);
+        EntityInit.ENTITIES.register(modBus);
 
         // Register ourselves for server and other game events we are interested in
         //MinecraftForge.EVENT_BUS.register(this);

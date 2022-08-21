@@ -2,6 +2,7 @@ package com.rena.rustic.client;
 
 import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.block.BlockVase;
+import com.rena.rustic.common.entity.SittableEntity;
 import com.rena.rustic.common.item.VaseItem;
 import com.rena.rustic.common.network.RusticNetwork;
 import com.rena.rustic.common.network.VariantPackage;
@@ -9,14 +10,11 @@ import com.rena.rustic.core.BlockInit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 
 @Mod.EventBusSubscriber(modid = RusticReborn.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientEventHandler {

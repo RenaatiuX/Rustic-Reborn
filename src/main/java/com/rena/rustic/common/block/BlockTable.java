@@ -1,25 +1,61 @@
 package com.rena.rustic.common.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class BlockTable extends Block {
+public class BlockTable extends BlockFurnitureWaterlogged {
 
-    public static final BooleanProperty NW = BooleanProperty.create("nw");
-    public static final BooleanProperty NE = BooleanProperty.create("ne");
-    public static final BooleanProperty SE = BooleanProperty.create("se");
-    public static final BooleanProperty SW = BooleanProperty.create("sw");
+    public static final BooleanProperty NORTH = BooleanProperty.create("north");
+    public static final BooleanProperty EAST = BooleanProperty.create("east");
+    public static final BooleanProperty SOUTH = BooleanProperty.create("south");
+    public static final BooleanProperty WEST = BooleanProperty.create("west");
 
     public static final VoxelShape AABB = Shapes.create(0, 0.875, 0, 1, 1, 1);
 
     public BlockTable(Properties p_49795_) {
         super(p_49795_);
-        this.registerDefaultState(this.stateDefinition.any().setValue(NW, true).setValue(NE, true).setValue(SE, true).setValue(SW, true));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context)
+    {
+        return AABB;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context)
+    {
+        return AABB;
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState newState, LevelAccessor level, BlockPos pos, BlockPos newPos)
+    {
+        boolean north = level.getBlockState(pos.north()).getBlock() == this;
+        boolean east = level.getBlockState(pos.east()).getBlock() == this;
+        boolean south = level.getBlockState(pos.south()).getBlock() == this;
+        boolean west = level.getBlockState(pos.west()).getBlock() == this;
+        return state.setValue(NORTH, north).setValue(EAST, east).setValue(SOUTH, south).setValue(WEST, west);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+    {
+        super.createBlockStateDefinition(builder);
+        builder.add(NORTH);
+        builder.add(EAST);
+        builder.add(SOUTH);
+        builder.add(WEST);
     }
 
     /*
@@ -47,7 +83,7 @@ public class BlockTable extends Block {
     }
      */
 
-    public BlockState getActualState(BlockState state, LevelReader worldIn, BlockPos pos)
+    /*public BlockState getActualState(BlockState state, LevelReader worldIn, BlockPos pos)
     {
         BlockState stateTemp = worldIn.getBlockState(pos.north());
         Block blockTemp = stateTemp.getBlock();

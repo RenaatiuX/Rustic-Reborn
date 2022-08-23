@@ -1,7 +1,7 @@
 {
 	"variants": {
-		"axis=y":	{ "model": "rustic:stone_pillar" },
-		"axis=z":	{ "model": "rustic:stone_pillar", "x": 90 },
-		"axis=x":	{ "model": "rustic:stone_pillar", "x": 90, "y": 90 }
+		"axis=y":	{ "model": "rustic:block/stone_pillar" },
+		"axis=z":	{ "model": "rustic:block/stone_pillar", "x": 90 },
+		"axis=x":	{ "model": "rustic:block/stone_pillar", "x": 90, "y": 90 }
 	}
 }

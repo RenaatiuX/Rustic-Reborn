@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -40,7 +41,7 @@ public class ItemInit {
                     .effect(new MobEffectInstance(MobEffects.JUMP, 200, 250, false, false), 1.0F).build()).stacksTo(16)));
 
     public static final RegistryObject<Item> WILDBERRIES  = ITEMS.register("wildberries",
-            () -> new Item(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.5F).build()).stacksTo(16)));
+            () -> new ItemNameBlockItem(BlockInit.WILDBERRIES.get(), (new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.5F).build()).stacksTo(16))));
 
     public static final RegistryObject<Item> GRAPES  = ITEMS.register("grapes",
             () -> new Item(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(3).saturationMod(0.3F).build()).stacksTo(16)));

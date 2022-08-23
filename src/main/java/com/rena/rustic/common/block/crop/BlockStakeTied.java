@@ -6,6 +6,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -18,8 +19,8 @@ public class BlockStakeTied extends Block {
     public static final BooleanProperty SOUTH = BooleanProperty.create("south");
     public static final BooleanProperty EAST = BooleanProperty.create("east");
 
-    protected static final VoxelShape KNOT_AABB = Shapes.box(0.3125F, 0.0F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
-    protected static final VoxelShape STAKE_AABB = Shapes.box(0.375F, 0.0F, 0.375F, 0.625F, 1.0F, 0.625F);
+    protected static final VoxelShape KNOT_AABB = Shapes.create(0.3125F, 0.0F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
+    protected static final VoxelShape STAKE_AABB = Shapes.create(0.375F, 0.0F, 0.375F, 0.625F, 1.0F, 0.625F);
 
     public BlockStakeTied(Properties p_49795_) {
         super(p_49795_);

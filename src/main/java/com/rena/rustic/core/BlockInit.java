@@ -2,20 +2,18 @@ package com.rena.rustic.core;
 
 import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.block.*;
-import com.rena.rustic.common.block.crop.BlockHerbBase;
+import com.rena.rustic.common.block.crop.BlockWildBerryBush;
 import com.rena.rustic.common.item.VaseItem;
+import com.rena.rustic.common.world.feature.tree.AppleTreeGrower;
 import com.rena.rustic.common.world.feature.tree.IronwoodTreeGrower;
 import com.rena.rustic.common.world.feature.tree.OliveTreeGrower;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.common.PlantType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -55,6 +53,28 @@ public class BlockInit {
 
     public static final RegistryObject<Block> TABLE_OAK = register("table_oak", ()-> new BlockTable(Block.Properties.copy(Blocks.OAK_PLANKS)), ModTabs.FARMING_TAB);
 
+    public static final RegistryObject<Block> SLATE_PILLAR = register("slate_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE).strength(2.0F)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> STONE_PILLAR = register("stone_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STONE)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> ANDESITE_PILLAR = register("andesite_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.ANDESITE)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> DIORITE_PILLAR = register("diorite_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DIORITE)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> GRANITE_PILLAR = register("granite_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.GRANITE)), ModTabs.FARMING_TAB);
+
+    public static final RegistryObject<Block> SLATE = register("slate",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> SLATE_ROOF = register("slate_roof",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> SLATE_TILE = register("slate_tile",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> SLATE_BRICKS = register("slate_bricks",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> SLATE_CHISELED = register("slate_chiseled",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)), ModTabs.FARMING_TAB);
+
     public static final RegistryObject<Block> IRONWOOD_DOOR = register("ironwood_door", ()-> new DoorBlock(Block.Properties.copy(Blocks.OAK_PLANKS)), ModTabs.FARMING_TAB);
     public static final RegistryObject<Block> OLIVE_DOOR = register("olive_door", ()-> new DoorBlock(Block.Properties.copy(Blocks.OAK_PLANKS)), ModTabs.FARMING_TAB);
 
@@ -68,6 +88,27 @@ public class BlockInit {
             () -> new SaplingBlock(new IronwoodTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)), ModTabs.FARMING_TAB);
     public static final RegistryObject<Block> OLIVE_SAPLING = register("olive_sapling",
             () -> new SaplingBlock(new OliveTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)), ModTabs.FARMING_TAB);
+
+    public static final RegistryObject<Block> APPLE_SAPLING = register("apple_sapling",
+            () -> new SaplingBlock(new AppleTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)), ModTabs.FARMING_TAB);
+
+    public static final RegistryObject<Block> IRONWOOD_FENCE = register("ironwood_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.of(Material.WOOD, IRONWOOD_PLANKS.get().defaultMaterialColor()).strength(2.0F,3.0F).sound(SoundType.WOOD)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> OLIVE_FENCE = register("olive_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.of(Material.WOOD, IRONWOOD_PLANKS.get().defaultMaterialColor()).strength(2.0F,3.0F).sound(SoundType.WOOD)), ModTabs.FARMING_TAB);
+
+    public static final RegistryObject<Block> IRONWOOD_FENCE_GATE = register("ironwood_fence_gate",
+            () -> new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, IRONWOOD_PLANKS.get().defaultMaterialColor()).strength(2.0F,3.0F).sound(SoundType.WOOD)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> OLIVE_FENCE_GATE = register("olive_fence_gate",
+            () -> new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, IRONWOOD_PLANKS.get().defaultMaterialColor()).strength(2.0F,3.0F).sound(SoundType.WOOD)), ModTabs.FARMING_TAB);
+
+    public static final RegistryObject<Block> IRONWOOD_STAIR = register("ironwood_fence",
+            () -> new StairBlock(()-> IRONWOOD_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(IRONWOOD_PLANKS.get())), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> OLIVE_STAIR = register("olive_fence",
+            () -> new StairBlock(()-> OLIVE_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(OLIVE_PLANKS.get())), ModTabs.FARMING_TAB);
+
+    public static final RegistryObject<Block> WILDBERRIES = register("wildberry_bush",
+            () -> new BlockWildBerryBush(BlockBehaviour.Properties.of(Material.PLANT).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH)), ModTabs.FARMING_TAB);
 
     public static final <T extends Block>RegistryObject<T> register(String name, Supplier<T> block, CreativeModeTab tab){
         return register(name, block, b -> new BlockItem(b, new Item.Properties().tab(tab)));

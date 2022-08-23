@@ -35,6 +35,9 @@ public class ClientSetup {
 
         ItemProperties.register(BlockInit.VASE.get().asItem(), new ResourceLocation("variant"), (stack, clientWorld, living, another) -> VaseItem.getVariant(stack));
 
+        ItemBlockRenderTypes.setRenderLayer(BlockInit.WILDBERRIES.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockInit.IRONWOOD_SAPLING.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockInit.OLIVE_SAPLING.get(), RenderType.cutout());
     }
 
 }

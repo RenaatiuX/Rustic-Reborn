@@ -1,6 +1,6 @@
 {
 	"parent": "block/cross",
 	"textures": {
-		"cross": "rustic:blocks/sapling_olive"
+		"cross": "rustic:block/sapling_ironwood"
 	}
 }

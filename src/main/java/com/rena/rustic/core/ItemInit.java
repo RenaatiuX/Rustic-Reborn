@@ -23,6 +23,9 @@ public class ItemInit {
     public static final RegistryObject<BucketItem> IRONBERRY_JUICE_BUCKET = ITEMS.register("ironberry_juice_bucket", () -> new BucketItem(() -> FluidInit.IRONBERRY_JUICE_STILL.get(), new Item.Properties().tab(ModTabs.FARMING_TAB).stacksTo(1)));
     public static final RegistryObject<BucketItem> APPLE_JUICE_BUCKET = ITEMS.register("apple_juice_bucket", () -> new BucketItem(() -> FluidInit.APPLE_JUICE_SOURCE.get(), new Item.Properties().tab(ModTabs.FARMING_TAB).stacksTo(1)));
 
+    public static final RegistryObject<BucketItem> WILDBERRY_JUICE_BUCKET = ITEMS.register("wildberry_juice_bucket", () -> new BucketItem(() -> FluidInit.WILDBERRY_JUICE_SOURCE.get(), new Item.Properties().tab(ModTabs.FARMING_TAB).stacksTo(1)));
+
+
     //Item
     public static final RegistryObject<Item> CHILI_PEPPER = ITEMS.register("chili_pepper",
             () -> new ChiliPepperItem(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(3).saturationMod(0.4F).build())));

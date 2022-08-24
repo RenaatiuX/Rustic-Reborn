@@ -41,7 +41,7 @@ public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<Crushi
                 pPoseStack.mulPose(Vector3f.YN.rotationDegrees(rand.nextFloat() * 360.0f));
                 pPoseStack.mulPose(Vector3f.XN.rotationDegrees(90));
                 pPoseStack.scale(0.5f, 0.5f, 0.5f);
-                Minecraft.getInstance().getItemRenderer().renderStatic(Minecraft.getInstance().player, stack, ItemTransforms.TransformType.NONE, false, pPoseStack, pBufferSource, Minecraft.getInstance().level, pPackedOverlay, pPackedOverlay, pPackedOverlay);
+                Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.FIXED, pPackedLight, pPackedOverlay, pPoseStack, pBufferSource, 0);
                 pPoseStack.popPose();
             }
         }
@@ -59,14 +59,10 @@ public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<Crushi
             int green = (c >> 8) & 0xFF;
             int red = (c >> 16) & 0xFF;
             int a = (c >> 24) & 0xFF;
-
             TextureAtlasSprite sprite = FluidUtils.getFluidTexture(fluid, FluidUtils.FluidType.STILL);
-
             if (sprite == null) return;
-
             diffU = maxU - minU;
             diffV = maxV - minV;
-
             minU = sprite.getU0() + diffU * 0.0625f;
             maxU = sprite.getU1() - diffU * 0.0625f;
             minV = sprite.getV0() + diffV * 0.0625f;

@@ -102,9 +102,9 @@ public class BlockInit {
     public static final RegistryObject<Block> OLIVE_FENCE_GATE = register("olive_fence_gate",
             () -> new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, IRONWOOD_PLANKS.get().defaultMaterialColor()).strength(2.0F,3.0F).sound(SoundType.WOOD)), ModTabs.FARMING_TAB);
 
-    public static final RegistryObject<Block> IRONWOOD_STAIR = register("ironwood_fence",
+    public static final RegistryObject<Block> IRONWOOD_STAIR = register("ironwood_stair",
             () -> new StairBlock(()-> IRONWOOD_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(IRONWOOD_PLANKS.get())), ModTabs.FARMING_TAB);
-    public static final RegistryObject<Block> OLIVE_STAIR = register("olive_fence",
+    public static final RegistryObject<Block> OLIVE_STAIR = register("olive_stair",
             () -> new StairBlock(()-> OLIVE_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(OLIVE_PLANKS.get())), ModTabs.FARMING_TAB);
 
     public static final RegistryObject<Block> WILDBERRIES = register("wildberry_bush",

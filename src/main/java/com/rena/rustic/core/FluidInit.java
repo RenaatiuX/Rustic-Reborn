@@ -38,8 +38,12 @@ public class FluidInit {
             player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 600, 1));
         }
     });
-    public static final ForgeFlowingFluid.Properties OLIVE_PROPERTIES = new ForgeFlowingFluid.Properties(() -> OLIVE_OIL_SOURCE.get(), () -> OLIVE_OIL_FLOWING.get(), FluidAttributes.builder(RusticReborn.modLoc("block/fluids/olive_oil_still"), RusticReborn.modLoc("block/fluids/olive_oil_flow")).density(920).viscosity(2000).overlay(RusticReborn.modLoc("block/fluids/olive_oil_still"))).block(() -> FluidInit.OLIVE_OIL.get()).bucket(() -> ItemInit.OLIVE_OIL_BUCKET.get()).slopeFindDistance(2);
-    public static final RegistryObject<LiquidBlock> OLIVE_OIL = BlockInit.BLOCKS.register("olive_oil", () -> new LiquidBlock(() -> OLIVE_OIL_SOURCE.get(), BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100f).noDrops()));
+    public static final ForgeFlowingFluid.Properties OLIVE_PROPERTIES = new ForgeFlowingFluid.Properties(() -> OLIVE_OIL_SOURCE.get(), () -> OLIVE_OIL_FLOWING.get(),
+            FluidAttributes.builder(RusticReborn.modLoc("block/fluids/olive_oil_still"), RusticReborn.modLoc("block/fluids/olive_oil_flow"))
+                    .density(920).viscosity(2000).overlay(RusticReborn.modLoc("block/fluids/olive_oil_still"))).block(
+                            () -> FluidInit.OLIVE_OIL.get()).bucket(() -> ItemInit.OLIVE_OIL_BUCKET.get()).slopeFindDistance(2);
+    public static final RegistryObject<LiquidBlock> OLIVE_OIL = BlockInit.BLOCKS.register("olive_oil",
+            () -> new LiquidBlock(() -> OLIVE_OIL_SOURCE.get(), BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100f).noDrops()));
 
     public static final RegistryObject<FluidDrinkable> IRONBERRY_JUICE_STILL = FLUIDS.register("ironberry_juice_still", () -> new FluidDrinkable.Source(FluidInit.IRONBERRY_PROPERTIES){
         @Override
@@ -85,6 +89,42 @@ public class FluidInit {
     public static final RegistryObject<LiquidBlock> APPLE_JUICE = BlockInit.BLOCKS.register("apple_juice", () -> new LiquidBlock(() -> APPLE_JUICE_SOURCE.get(), BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100f).noDrops()));
 
 
+    public static final RegistryObject<FluidDrinkable> WILDBERRY_JUICE_SOURCE = FLUIDS.register("wildberry_juice_still",
+            ()-> new FluidDrinkable.Source(FluidInit.WILDBERRY_PROPERTIES){
+                @Override
+                public void onDrank(@NotNull Level world, @NotNull Player player, @NotNull ItemStack stack, @NotNull FluidStack fluid) {
+                    player.getFoodData().eat(1, 1F);
+                    if (player.getRandom().nextFloat() < 0.2F) {
+                        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 75));
+                    }
+                    if (player.getRandom().nextFloat() < 0.1F) {
+                        player.addEffect(new MobEffectInstance(MobEffects.POISON, 200));
+                    }
+                }
+            });
+
+    public static final RegistryObject<FluidDrinkable> WILDBERRY_JUICE_FLOWING = FLUIDS.register("wildberry_juice_flowing",
+            ()-> new FluidDrinkable.Source(FluidInit.WILDBERRY_PROPERTIES){
+                @Override
+                public void onDrank(@NotNull Level world, @NotNull Player player, @NotNull ItemStack stack, @NotNull FluidStack fluid) {
+                    player.getFoodData().eat(1, 1F);
+                    if (player.getRandom().nextFloat() < 0.2F) {
+                        player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 75));
+                    }
+                    if (player.getRandom().nextFloat() < 0.1F) {
+                        player.addEffect(new MobEffectInstance(MobEffects.POISON, 200));
+                    }
+                }
+            });
+
+    public static final ForgeFlowingFluid.Properties WILDBERRY_PROPERTIES = new ForgeFlowingFluid.Properties(
+            () -> WILDBERRY_JUICE_SOURCE.get(), () -> WILDBERRY_JUICE_FLOWING.get(),
+            FluidAttributes.builder(RusticReborn.modLoc("block/fluids/wildberry_juice_still"), RusticReborn.modLoc("block/fluids/wildberry_juice_flow"))
+                    .density(1070).viscosity(1100).overlay(RusticReborn.modLoc("block/fluids/wildberry_juice_still"))).block(
+                            () -> FluidInit.WILDBERRY_JUICE.get()).bucket(() -> ItemInit.WILDBERRY_JUICE_BUCKET.get()).slopeFindDistance(2);
+
+    public static final RegistryObject<LiquidBlock> WILDBERRY_JUICE = BlockInit.BLOCKS.register("wildberry_juice",
+            () -> new LiquidBlock(() -> APPLE_JUICE_SOURCE.get(), BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100f).noDrops()));
 
 
 

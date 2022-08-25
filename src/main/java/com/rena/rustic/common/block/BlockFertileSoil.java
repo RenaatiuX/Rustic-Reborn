@@ -20,18 +20,28 @@ public class BlockFertileSoil extends Block {
         return true;
     }
 
-    /*@Override
+    @Override
     public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
         PlantType plantType = plantable.getPlantType(world, pos.relative(facing));
-        return switch (plantType) {
-            case DESERT -> true;
-            case NETHER -> false;
-            case CROP -> true;
-            case CAVE -> true;
-            case PLAINS -> true;
-            case WATER -> false;
-            case BEACH -> true;
-            default -> super.canSustainPlant(state, world, pos, facing, plantable);
-        };
-    }*/
+
+        if(DESERT.equals(plantType)){
+            return true;
+        }
+        else if(NETHER.equals(plantType)){
+            return false;
+        }
+        else if(CROP.equals(plantType)){
+            return true;
+        }
+        else if(CAVE.equals(plantType)){
+            return true;
+        }
+        else if(PLAINS.equals(plantType)){
+            return true;
+        }
+        else if(WATER.equals(plantType)){
+            return true;
+        }
+        else return BEACH.equals(plantType);
+    }
 }

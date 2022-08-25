@@ -1,8 +1,8 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "blocks/planks_big_oak",
-	"particle": "blocks/planks_big_oak"
+        "0": "block/dark_oak_planks",
+	"particle": "block/dark_oak_planks"
     },
     "elements": [
         {

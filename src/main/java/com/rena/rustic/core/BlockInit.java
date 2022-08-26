@@ -2,7 +2,7 @@ package com.rena.rustic.core;
 
 import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.block.*;
-import com.rena.rustic.common.block.crop.BlockWildBerryBush;
+import com.rena.rustic.common.block.crop.*;
 import com.rena.rustic.common.item.VaseItem;
 import com.rena.rustic.common.world.feature.tree.AppleTreeGrower;
 import com.rena.rustic.common.world.feature.tree.IronwoodTreeGrower;
@@ -109,7 +109,6 @@ public class BlockInit {
             () -> new SaplingBlock(new IronwoodTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)), ModTabs.FARMING_TAB);
     public static final RegistryObject<Block> OLIVE_SAPLING = register("olive_sapling",
             () -> new SaplingBlock(new OliveTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)), ModTabs.FARMING_TAB);
-
     public static final RegistryObject<Block> APPLE_SAPLING = register("apple_sapling",
             () -> new SaplingBlock(new AppleTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)), ModTabs.FARMING_TAB);
 
@@ -128,6 +127,9 @@ public class BlockInit {
     public static final RegistryObject<Block> OLIVE_STAIR = register("olive_stair",
             () -> new StairBlock(()-> OLIVE_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(OLIVE_PLANKS.get())), ModTabs.FARMING_TAB);
 
+    public static final RegistryObject<Block> APPLE_LEAVES = register("leaves_apple",
+            ()-> new BlockLeavesApple(BlockBehaviour.Properties.of(Material.LEAVES)), ModTabs.FARMING_TAB);
+
     public static final RegistryObject<Block> WILDBERRIES = register("wildberry_bush",
             () -> new BlockWildBerryBush(BlockBehaviour.Properties.of(Material.PLANT).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH)), ModTabs.FARMING_TAB);
 
@@ -140,6 +142,49 @@ public class BlockInit {
             ()-> new Block(BlockBehaviour.Properties.of(Material.CLAY).strength(1.0F).sound(SoundType.GRAVEL)), ModTabs.FARMING_TAB);
     public static final RegistryObject<Block> CLAY_WALL_CROSS = register("clay_wall_cross",
             ()-> new Block(BlockBehaviour.Properties.of(Material.CLAY).strength(1.0F).sound(SoundType.GRAVEL)), ModTabs.FARMING_TAB);
+
+    public static final RegistryObject<BlockStakeCrop> TOMATO_CROP = BLOCKS.register("tomato_crop",
+            ()-> new BlockStakeCrop(BlockBehaviour.Properties.of(Material.PLANT).sound(SoundType.CROP).randomTicks()){
+                @Override
+                protected Item getCrop() {
+                    return ItemInit.TOMATO.get();
+                }
+
+                @Override
+                protected Item getSeed() {
+                    return ItemInit.TOMATO_SEEDS.get();
+                }
+            });
+
+    public static final RegistryObject<BlockStakeCrop> CHILI_CROP = BLOCKS.register("chili_crop",
+            ()-> new BlockStakeCrop(BlockBehaviour.Properties.of(Material.PLANT).sound(SoundType.CROP).randomTicks()){
+                @Override
+                protected Item getCrop() {
+                    return ItemInit.CHILI_PEPPER.get();
+                }
+
+                @Override
+                protected Item getSeed() {
+                    return ItemInit.CHILI_PEPPER_SEEDS.get();
+                }
+
+                @Override
+                public int getMaxHeight() {
+                    return 2;
+                }
+            });
+
+    public static final RegistryObject<Block> GRAPE_LEAVES = register("grape_leaves",
+            ()-> new BlockGrapeLeaves(BlockBehaviour.Properties.of(Material.LEAVES).randomTicks().sound(SoundType.GRASS)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> GRAPE_STEM = register("grape_stem",
+            ()-> new BlockGrapeStem(BlockBehaviour.Properties.of(Material.LEAVES).randomTicks().sound(SoundType.GRASS).strength(0.5F)), ModTabs.FARMING_TAB);
+
+    public static final RegistryObject<Block> ROPE = register("rope",
+            ()-> new BlockRope(BlockBehaviour.Properties.of(Material.CLOTH_DECORATION).strength(0.5F).sound(SoundType.WOOL)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> CROP_STAKE = register("crop_stake",
+            ()-> new BlockCropStake(BlockBehaviour.Properties.of(Material.WOOD).strength(2.0F, 5.0F).sound(SoundType.WOOD)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> STAKE_TIED = BLOCKS.register("stake_tied",
+            ()-> new BlockStakeTied(BlockBehaviour.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(1.0F, 5.0F)));
 
     public static final <T extends Block>RegistryObject<T> register(String name, Supplier<T> block, CreativeModeTab tab){
         return register(name, block, b -> new BlockItem(b, new Item.Properties().tab(tab)));

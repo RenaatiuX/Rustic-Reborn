@@ -2,6 +2,7 @@ package com.rena.rustic.core;
 
 import com.rena.rustic.RusticReborn;
 import com.rena.rustic.common.item.ChiliPepperItem;
+import com.rena.rustic.common.item.ItemStakeCropSeed;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -29,6 +30,11 @@ public class ItemInit {
     //Item
     public static final RegistryObject<Item> CHILI_PEPPER = ITEMS.register("chili_pepper",
             () -> new ChiliPepperItem(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(3).saturationMod(0.4F).build())));
+    public static final RegistryObject<Item> TOMATO = ITEMS.register("tomato",
+            () -> new Item(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).build())));
+
+    public static final RegistryObject<Item> TOMATO_SEEDS = ITEMS.register("tomato_seeds", ()-> new ItemStakeCropSeed(new Item.Properties().tab(ModTabs.FARMING_TAB), BlockInit.TOMATO_CROP.get()));
+    public static final RegistryObject<Item> CHILI_PEPPER_SEEDS = ITEMS.register("chili_pepper_seeds", ()-> new ItemStakeCropSeed(new Item.Properties().tab(ModTabs.FARMING_TAB), BlockInit.CHILI_CROP.get()));
 
     public static final RegistryObject<Item> OLIVES = ITEMS.register("olives",
             () -> new Item(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(1).saturationMod(0.4F)

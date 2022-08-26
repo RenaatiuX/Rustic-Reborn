@@ -40,6 +40,12 @@ public class ClientSetup {
         ItemBlockRenderTypes.setRenderLayer(BlockInit.WILDBERRIES.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(BlockInit.IRONWOOD_SAPLING.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(BlockInit.OLIVE_SAPLING.get(), RenderType.cutout());
+
+        ItemBlockRenderTypes.setRenderLayer(BlockInit.GRAPE_LEAVES.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockInit.APPLE_LEAVES.get(), RenderType.cutout());
+
+        ItemBlockRenderTypes.setRenderLayer(BlockInit.TOMATO_CROP.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(BlockInit.CHILI_CROP.get(), RenderType.cutout());
     }
 
 }

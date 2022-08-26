@@ -3,17 +3,21 @@ package com.rena.rustic.common.block.crop;
 import com.rena.rustic.core.BlockInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -22,11 +26,12 @@ public class BlockAppleSeeds extends Block implements IPlantable, BonemealableBl
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 1);
 
     private static final VoxelShape[] CROPS_AABB = new VoxelShape[] {
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D) };
+            Shapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D),
+            Shapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D) };
 
     public BlockAppleSeeds(Properties properties) {
         super(properties);
+        registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
 
 
@@ -90,5 +95,16 @@ public class BlockAppleSeeds extends Block implements IPlantable, BonemealableBl
         } else {
             pLevel.setBlock(pPos, BlockInit.APPLE_SAPLING.get().defaultBlockState(), 3);
         }
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        return defaultBlockState();
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(AGE);
     }
 }

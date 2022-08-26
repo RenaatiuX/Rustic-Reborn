@@ -1,25 +1,34 @@
 package com.rena.rustic.common.block;
 
+import com.rena.rustic.common.block.crop.BlockGrapeLeaves;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockRopeBase extends Block {
 
@@ -40,37 +49,38 @@ public class BlockRopeBase extends Block {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        /*
-        ItemStack stack = player.getHeldItem(hand);
-		if (!canPlaceBlockOnSide(world, pos.offset(side), side) && stack.getItem() == Item.getItemFromBlock(this)) {
-			if (!this.isBlockSupported(world, pos, state)) {
-				this.dropBlock(world, pos, state);
-				return true;
+
+        /*ItemStack stack = pPlayer.getItemInHand(pHand);
+		if (!canPlaceBlockOnSide(pLevel, pPos.offset(side), side) && stack.getItem() == Item.BY_BLOCK.get(this)) {
+			if (!this.isBlockSupported(pLevel, pPos, pState)) {
+				this.dropBlock(pLevel, pPos, pState);
+                return InteractionResult.SUCCESS;
 			}
 
 			int yOffset = 1;
-			while (yOffset < 64 && world.getBlockState(pos.down(yOffset)).getBlock() == this) {
-				if (world.getBlockState(pos.down(yOffset)).getValue(AXIS) != EnumFacing.Axis.Y) {
-					return false;
+			while (yOffset < 64 && pLevel.getBlockState(pPos.below(yOffset)).getBlock() == this) {
+				if (pLevel.getBlockState(pPos.below(yOffset)).getValue(AXIS) != Direction.Axis.Y) {
+                    return InteractionResult.CONSUME;
 				}
 				yOffset++;
 			}
-			if (canPlaceBlockAt(world, pos.down(yOffset))) {
-				world.setBlockState(pos.down(yOffset), state.withProperty(AXIS, EnumFacing.Axis.Y), 3);
-				if (!player.capabilities.isCreativeMode) {
-					player.getHeldItem(hand).shrink(1);
+			if (canPlaceBlockAt(pLevel, pPos.below(yOffset))) {
+                pLevel.setBlock(pPos.below(yOffset), pState.setValue(AXIS, Direction.Axis.Y), 3);
+				if (!pPlayer.getAbilities().instabuild) {
+                    pPlayer.getItemInHand(pHand).shrink(1);
 				}
-				SoundType soundType = getSoundType(state, world, pos, player);
-				world.playSound(pos.getX(), pos.getY() - yOffset, pos.getZ(), soundType.getPlaceSound(),
-						SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F,
+				SoundType soundType = getSoundType(pState, pLevel, pPos, pPlayer);
+                pLevel.playLocalSound(pPos.getX(), pPos.getY() - yOffset, pPos.getZ(), soundType.getPlaceSound(),
+						SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F,
 						false);
-				return true;
+                return InteractionResult.SUCCESS;
 			}
-		}
+		}*/
 
-		return false;
-         */
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+		return InteractionResult.CONSUME;
+
+
+
     }
 
     @Override
@@ -78,36 +88,7 @@ public class BlockRopeBase extends Block {
         return true;
     }
 
-    /*
     @Override
-	public int damageDropped(IBlockState state) {
-		return 0;
-	}
-
-	@Override
-	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side) {
-		IBlockState testState = world.getBlockState(pos.offset(side.getOpposite()));
-
-		if (side == EnumFacing.UP) {
-			return canPlaceBlockOnSide(world, pos, EnumFacing.DOWN);
-		}
-
-		boolean isThis = testState.getBlock() == this && testState.getValue(AXIS) == side.getAxis();
-		boolean isSideSolid = world.isSideSolid(pos.offset(side.getOpposite()), side, false);
-
-		return isThis || isSideSolid;
-	}
-     */
-
-    /*protected void dropBlock(Level worldIn, BlockPos pos, BlockState state) {
-        this.dropBlockAsItem(worldIn, pos, state, 0);
-        worldIn.isEmptyBlock(pos);
-        SoundType soundType = getSoundType(state, worldIn, pos, null);
-        worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), soundType.getBreakSound(), SoundEvents.BLOCKS,
-                (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F, true);
-    }
-
-    /*@Override
     public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
         Direction dir = null;
         if (pFromPos.getX() != pPos.getX()) {
@@ -129,7 +110,15 @@ public class BlockRopeBase extends Block {
         }
     }
 
-    /*public boolean isSideSupported(Level world, BlockPos pos, BlockState state, Direction facing) {
+    protected void dropBlock(Level worldIn, BlockPos pos, BlockState state) {
+        //this.dropBlockAsItem(worldIn, pos, state, 0);
+        worldIn.isEmptyBlock(pos);
+        SoundType soundType = getSoundType(state, worldIn, pos, null);
+        worldIn.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), soundType.getBreakSound(), SoundSource.BLOCKS,
+                (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F, true);
+    }
+
+    public boolean isSideSupported(Level world, BlockPos pos, BlockState state, Direction facing) {
         BlockState testState = world.getBlockState(pos.relative(facing));
 
         if (facing == Direction.DOWN) {
@@ -139,9 +128,9 @@ public class BlockRopeBase extends Block {
         boolean isSame = testState.getBlock() == state.getBlock()
                 && ((state.getValue(AXIS) == Direction.Axis.Y && facing.getAxis() == Direction.Axis.Y)
                 || testState.getValue(AXIS) == state.getValue(AXIS));
-        boolean isSideSolid = world.isSideSolid(pos.relative(facing), facing.getOpposite(), false);
+        //boolean isSideSolid = world.isSideSolid(pos.relative(facing), facing.getOpposite(), false);
 
-        return isSame || isSideSolid;
+        return isSame; //|| isSideSolid;
     }
 
     public boolean isBlockSupported(Level world, BlockPos pos, BlockState state) {
@@ -157,83 +146,43 @@ public class BlockRopeBase extends Block {
         return false;
     }
 
-    /*
     @Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] { AXIS, DANGLE });
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing.Axis enumfacing$axis = EnumFacing.Axis.Y;
-		//boolean supported = false;
-		int i = meta & 3;
-
-		if (i == 0) {
-			enumfacing$axis = EnumFacing.Axis.Y;
-		} else if (i == 1) {
-			enumfacing$axis = EnumFacing.Axis.X;
-		} else if (i == 2) {
-			enumfacing$axis = EnumFacing.Axis.Z;
-		}
-
-		return this.getDefaultState().withProperty(AXIS, enumfacing$axis);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state) {
-		int i = 0;
-		EnumFacing.Axis enumfacing$axis = (EnumFacing.Axis) state.getValue(AXIS);
-
-		if (enumfacing$axis == EnumFacing.Axis.X) {
-			i = 1;
-		} else if (enumfacing$axis == EnumFacing.Axis.Z) {
-			i = 2;
-		}
-
-		return i;
-	}
-
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (state.getValue(AXIS) != EnumFacing.Axis.Y && world.getBlockState(pos.down()).getBlock() instanceof BlockRopeBase && !(world.getBlockState(pos.down()).getBlock() instanceof BlockGrapeLeaves)
-				&& world.getBlockState(pos.down()).getValue(BlockRope.AXIS) == EnumFacing.Axis.Y) {
-			return state.withProperty(DANGLE, true);
-		}
-		return state.withProperty(DANGLE, false);
-	}
-
-	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer) {
-		return super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(AXIS,
-				facing.getAxis());
-	}
-     */
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(AXIS);
+        pBuilder.add(DANGLE);
+    }
 
     @Override
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        switch (pRotation) {
-            case COUNTERCLOCKWISE_90:
-            case CLOCKWISE_90:
-
-                switch ((Direction.Axis) pState.getValue(AXIS)) {
-                    case X:
-                        return pState.setValue(AXIS, Direction.Axis.Z);
-                    case Z:
-                        return pState.setValue(AXIS, Direction.Axis.X);
-                    default:
-                        return pState;
-                }
-
-            default:
-                return pState;
+    public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
+        if (pState.getValue(AXIS) != Direction.Axis.Y && pLevel.getBlockState(pCurrentPos.below()).getBlock() instanceof BlockRopeBase && !(pLevel.getBlockState(pCurrentPos.below()).getBlock() instanceof BlockGrapeLeaves)
+                && pLevel.getBlockState(pCurrentPos.below()).getValue(BlockRope.AXIS) == Direction.Axis.Y) {
+            return pState.setValue(DANGLE, true);
         }
+        return pState.setValue(DANGLE, false);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        Direction dir = null;
+        return super.getStateForPlacement(pContext).setValue(AXIS, dir.getAxis());
+    }
+
+    @Override
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation direction) {
+        return switch (direction) {
+            case COUNTERCLOCKWISE_90, CLOCKWISE_90 -> switch (state.getValue(AXIS)) {
+                case X -> state.setValue(AXIS, Direction.Axis.Z);
+                case Z -> state.setValue(AXIS, Direction.Axis.X);
+                default -> state;
+            };
+            default -> state;
+        };
     }
 
     /*@Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        pState = this.getActualState(state, source, pos);
+        pState = this.getActualState(pState, pLevel, pPos);
         switch (pState.getValue(AXIS)) {
             case Y:
                 return Y_AABB;
@@ -249,12 +198,10 @@ public class BlockRopeBase extends Block {
                 return Z_AABB;
         }
         return Y_AABB;
-    }
+    }*/
 
-    /*
     @Override
-	public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
         return false;
     }
-     */
 }

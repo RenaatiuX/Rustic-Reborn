@@ -1,16 +1,23 @@
 {
-    "variants": {
-        "north": {
-             "model": "rustic:block/rope_attachment_n"
-        },
-        "east": {
-             "model": "rustic:block/rope_attachment_n", "y": 90
-        },
-        "south": {
-             "model": "rustic:block/rope_attachment_n", "y": 180
-        },
-        "west": {
-            "model": "rustic:block/rope_attachment_n", "y": 270
-        }
+  "multipart": [
+    {
+      "apply": {"model": "rustic:block/stake_tied"}
+    },
+    {
+      "when": {"north": "true"},
+      "apply": {"model": "rustic:block/rope_attachment_n"}
+    },
+    {
+      "when": {"east": "true"},
+      "apply":{"model": "rustic:block/rope_attachment_n", "y":  90}
+    },
+    {
+      "when": {"south": "true"},
+      "apply":{"model": "rustic:block/rope_attachment_n", "y":  180}
+    },
+    {
+      "when": {"west": "true"},
+      "apply":{"model": "rustic:block/rope_attachment_n", "y":  270}
     }
+  ]
 }

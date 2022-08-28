@@ -29,6 +29,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.system.CallbackI;
 
 public class BlockRopeBase extends Block {
 
@@ -50,8 +51,8 @@ public class BlockRopeBase extends Block {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
 
-        /*ItemStack stack = pPlayer.getItemInHand(pHand);
-		if (!canPlaceBlockOnSide(pLevel, pPos.offset(side), side) && stack.getItem() == Item.BY_BLOCK.get(this)) {
+        ItemStack stack = pPlayer.getItemInHand(pHand);
+		if (!canSurvive(pState, pLevel, pPos.relative(pHit.getDirection())) && stack.getItem() == asItem()) {
 			if (!this.isBlockSupported(pLevel, pPos, pState)) {
 				this.dropBlock(pLevel, pPos, pState);
                 return InteractionResult.SUCCESS;
@@ -64,7 +65,7 @@ public class BlockRopeBase extends Block {
 				}
 				yOffset++;
 			}
-			if (canPlaceBlockAt(pLevel, pPos.below(yOffset))) {
+			if (canSurvive(pState, pLevel, pPos.below(yOffset))) {
                 pLevel.setBlock(pPos.below(yOffset), pState.setValue(AXIS, Direction.Axis.Y), 3);
 				if (!pPlayer.getAbilities().instabuild) {
                     pPlayer.getItemInHand(pHand).shrink(1);
@@ -75,7 +76,7 @@ public class BlockRopeBase extends Block {
 						false);
                 return InteractionResult.SUCCESS;
 			}
-		}*/
+		}
 
 		return InteractionResult.CONSUME;
 
@@ -111,7 +112,7 @@ public class BlockRopeBase extends Block {
     }
 
     protected void dropBlock(Level worldIn, BlockPos pos, BlockState state) {
-        //this.dropBlockAsItem(worldIn, pos, state, 0);
+        Block.popResource(worldIn, pos, new ItemStack(this));
         worldIn.isEmptyBlock(pos);
         SoundType soundType = getSoundType(state, worldIn, pos, null);
         worldIn.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), soundType.getBreakSound(), SoundSource.BLOCKS,
@@ -128,9 +129,9 @@ public class BlockRopeBase extends Block {
         boolean isSame = testState.getBlock() == state.getBlock()
                 && ((state.getValue(AXIS) == Direction.Axis.Y && facing.getAxis() == Direction.Axis.Y)
                 || testState.getValue(AXIS) == state.getValue(AXIS));
-        //boolean isSideSolid = world.isSideSolid(pos.relative(facing), facing.getOpposite(), false);
+        boolean isSideSolid = Block.isFaceFull(world.getBlockState(pos.relative(facing)).getShape(world, pos), facing.getOpposite());
 
-        return isSame; //|| isSideSolid;
+        return isSame || isSideSolid;
     }
 
     public boolean isBlockSupported(Level world, BlockPos pos, BlockState state) {
@@ -161,13 +162,6 @@ public class BlockRopeBase extends Block {
         return pState.setValue(DANGLE, false);
     }
 
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        Direction dir = null;
-        return super.getStateForPlacement(pContext).setValue(AXIS, dir.getAxis());
-    }
-
     @Override
     public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation direction) {
         return switch (direction) {
@@ -180,9 +174,8 @@ public class BlockRopeBase extends Block {
         };
     }
 
-    /*@Override
+    @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        pState = this.getActualState(pState, pLevel, pPos);
         switch (pState.getValue(AXIS)) {
             case Y:
                 return Y_AABB;
@@ -198,7 +191,7 @@ public class BlockRopeBase extends Block {
                 return Z_AABB;
         }
         return Y_AABB;
-    }*/
+    }
 
     @Override
     public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {

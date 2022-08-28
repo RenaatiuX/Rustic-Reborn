@@ -33,8 +33,8 @@ public class ItemInit {
     public static final RegistryObject<Item> TOMATO = ITEMS.register("tomato",
             () -> new Item(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).build())));
 
-    public static final RegistryObject<Item> TOMATO_SEEDS = ITEMS.register("tomato_seeds", ()-> new ItemStakeCropSeed(new Item.Properties().tab(ModTabs.FARMING_TAB), BlockInit.TOMATO_CROP.get()));
-    public static final RegistryObject<Item> CHILI_PEPPER_SEEDS = ITEMS.register("chili_pepper_seeds", ()-> new ItemStakeCropSeed(new Item.Properties().tab(ModTabs.FARMING_TAB), BlockInit.CHILI_CROP.get()));
+    public static final RegistryObject<Item> TOMATO_SEEDS = ITEMS.register("tomato_seeds", ()-> new ItemStakeCropSeed(new Item.Properties().tab(ModTabs.FARMING_TAB), BlockInit.TOMATO_CROP::get));
+    public static final RegistryObject<Item> CHILI_PEPPER_SEEDS = ITEMS.register("chili_pepper_seeds", ()-> new ItemStakeCropSeed(new Item.Properties().tab(ModTabs.FARMING_TAB), BlockInit.CHILI_CROP::get));
 
     public static final RegistryObject<Item> OLIVES = ITEMS.register("olives",
             () -> new Item(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(1).saturationMod(0.4F)
@@ -42,12 +42,12 @@ public class ItemInit {
 
     public static final RegistryObject<Item> IRONBERRIES = ITEMS.register("ironberries",
             ( )-> new Item(new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.4F)
-                    .effect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 15, false, false), 1.0F)
-                    .effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 15, false, false), 1.0F)
-                    .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 15, false, false), 1.0F)
-                    .effect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 15, false, false), 1.0F)
-                    .effect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 15, false, false), 1.0F)
-                    .effect(new MobEffectInstance(MobEffects.JUMP, 200, 250, false, false), 1.0F).build()).stacksTo(16)));
+                    .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 15, false, false), 1.0F)
+                    .effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 15, false, false), 1.0F)
+                    .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 15, false, false), 1.0F)
+                    .effect(() -> new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 15, false, false), 1.0F)
+                    .effect(() -> new MobEffectInstance(MobEffects.WEAKNESS, 200, 15, false, false), 1.0F)
+                    .effect(() -> new MobEffectInstance(MobEffects.JUMP, 200, 250, false, false), 1.0F).build()).stacksTo(16)));
 
     public static final RegistryObject<Item> WILDBERRIES  = ITEMS.register("wildberries",
             () -> new ItemNameBlockItem(BlockInit.WILDBERRIES.get(), (new Item.Properties().tab(ModTabs.FARMING_TAB).food(new FoodProperties.Builder().nutrition(2).saturationMod(0.5F).build()).stacksTo(16))));

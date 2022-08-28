@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class BlockStakeCrop extends Block implements BonemealableBlock, IPlantable {
+public abstract class BlockStakeCrop extends Block implements BonemealableBlock, IPlantable {
 
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 3);
 
@@ -123,7 +123,7 @@ public class BlockStakeCrop extends Block implements BonemealableBlock, IPlantab
     protected static float getGrowthChance(Block block, Level world, BlockPos pos) {
         float growth = 0.125F * (world.getLightEmission(pos) - 11);
         BlockState soil = world.getBlockState(pos.offset(0, -1, 0));
-        //if (soil.getBlock().isFertile(world, pos.offset(0, -1, 0)) || soil.getBlock() == block)
+        if (soil.getBlock().isFertile(soil, world, pos.offset(0, -1, 0)) || soil.getBlock() == block)
             growth *= 1.5F;
         return 3.5F + growth;
     }
@@ -186,13 +186,9 @@ public class BlockStakeCrop extends Block implements BonemealableBlock, IPlantab
         return new ItemStack(this.getSeed());
     }
 
-    protected Item getSeed() {
-        return null;
-    }
+    protected abstract Item getSeed();
 
-    protected Item getCrop() {
-        return null;
-    }
+    protected abstract Item getCrop();
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {

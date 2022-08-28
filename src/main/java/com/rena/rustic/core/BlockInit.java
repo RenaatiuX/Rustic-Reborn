@@ -130,8 +130,8 @@ public class BlockInit {
     public static final RegistryObject<Block> APPLE_LEAVES = register("leaves_apple",
             ()-> new BlockLeavesApple(BlockBehaviour.Properties.of(Material.LEAVES)), ModTabs.FARMING_TAB);
 
-    public static final RegistryObject<Block> WILDBERRIES = register("wildberry_bush",
-            () -> new BlockWildBerryBush(BlockBehaviour.Properties.of(Material.PLANT).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH)), ModTabs.FARMING_TAB);
+    public static final RegistryObject<Block> WILDBERRIES = BLOCKS.register("wildberry_bush",
+            () -> new BlockWildBerryBush(BlockBehaviour.Properties.of(Material.PLANT).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH)));
 
     public static final RegistryObject<Block> FERTILE_SOIL = register("fertile_soil",
             ()-> new BlockFertileSoil(BlockBehaviour.Properties.of(Material.DIRT).strength(0.5F).sound(SoundType.GRAVEL)), ModTabs.FARMING_TAB);
@@ -167,11 +167,6 @@ public class BlockInit {
                 protected Item getSeed() {
                     return ItemInit.CHILI_PEPPER_SEEDS.get();
                 }
-
-                @Override
-                public int getMaxHeight() {
-                    return 2;
-                }
             });
 
     public static final RegistryObject<Block> GRAPE_LEAVES = register("grape_leaves",
@@ -185,6 +180,10 @@ public class BlockInit {
             ()-> new BlockCropStake(BlockBehaviour.Properties.of(Material.WOOD).strength(2.0F, 5.0F).sound(SoundType.WOOD)), ModTabs.FARMING_TAB);
     public static final RegistryObject<Block> STAKE_TIED = BLOCKS.register("stake_tied",
             ()-> new BlockStakeTied(BlockBehaviour.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(1.0F, 5.0F)));
+
+    public static final <T extends Block>RegistryObject<T> register(String name, Supplier<T> block){
+        return BLOCKS.register(name, block);
+    }
 
     public static final <T extends Block>RegistryObject<T> register(String name, Supplier<T> block, CreativeModeTab tab){
         return register(name, block, b -> new BlockItem(b, new Item.Properties().tab(tab)));

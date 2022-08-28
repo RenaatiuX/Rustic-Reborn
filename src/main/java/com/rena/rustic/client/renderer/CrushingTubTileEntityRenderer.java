@@ -1,16 +1,10 @@
 package com.rena.rustic.client.renderer;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
-import com.rena.rustic.RusticReborn;
 import com.rena.rustic.client.renderer.util.FluidRenderTypes;
-import com.rena.rustic.client.renderer.util.FluidUtils;
-import com.rena.rustic.client.renderer.util.RenderResizableCuboid;
-import com.rena.rustic.client.renderer.util.RenderUtils;
-import com.rena.rustic.common.block_entity.CrushingTubTileEntitiy;
-import net.minecraft.client.Camera;
+import com.rena.rustic.common.blockentity.CrushingTubTileEntitiy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -18,20 +12,16 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Random;
-import java.util.logging.Logger;
 
 public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<CrushingTubTileEntitiy> {
 
     private final BlockEntityRendererProvider.Context ctx;
-    private float minU, minV, maxU, maxV, diffU, diffV;
 
     public CrushingTubTileEntityRenderer(BlockEntityRendererProvider.Context ctx) {
         this.ctx = ctx;
@@ -41,9 +31,6 @@ public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<Crushi
     @Override
     public void render(CrushingTubTileEntitiy te, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
         if (!te.getItem(0).isEmpty()) {
-            pPoseStack.pushPose();
-            drawFluid(te, pPoseStack, pBufferSource, 1F * 0.0625F, 0F * 0.0625F, 1F * 0.0625F, 15F * 0.0625F, 7F * 0.0625F, 15F * 0.0625F, pPackedLight);
-            pPoseStack.popPose();
             ItemStack stack = te.getItem(0);
             int itemCount = (int) Math.ceil((stack.getCount()) / 8.0);
             Random rand = new Random(10);
@@ -54,10 +41,13 @@ public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<Crushi
                 pPoseStack.mulPose(Vector3f.YN.rotationDegrees(rand.nextFloat() * 360.0f));
                 pPoseStack.mulPose(Vector3f.XN.rotationDegrees(90));
                 pPoseStack.scale(0.5f, 0.5f, 0.5f);
-                Minecraft.getInstance().getItemRenderer().renderStatic(Minecraft.getInstance().player, stack, ItemTransforms.TransformType.NONE, false, pPoseStack, pBufferSource, Minecraft.getInstance().level, pPackedOverlay, pPackedOverlay, pPackedOverlay);
+                Minecraft.getInstance().getItemRenderer().renderStatic(Minecraft.getInstance().player, stack, ItemTransforms.TransformType.NONE, false, pPoseStack, pBufferSource, Minecraft.getInstance().level, pPackedOverlay, pPackedOverlay, pPackedLight);
                 pPoseStack.popPose();
             }
         }
+        pPoseStack.pushPose();
+        drawFluid(te, pPoseStack, pBufferSource, 1F * 0.0625F, 0F * 0.0625F, 1F * 0.0625F, 15F * 0.0625F, 7F * 0.0625F, 15F * 0.0625F, pPackedLight);
+        pPoseStack.popPose();
     }
 
     private void drawFluid(CrushingTubTileEntitiy te, PoseStack poseStack, MultiBufferSource source, float x, float y, float z, float width, float height, float depth, int light) {

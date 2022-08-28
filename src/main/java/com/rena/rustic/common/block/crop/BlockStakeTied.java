@@ -60,7 +60,7 @@ public class BlockStakeTied extends Block {
 
     @Override
     public List<ItemStack> getDrops(BlockState pState, LootContext.Builder pBuilder) {
-        List<ItemStack> stacks = new ArrayList<ItemStack>();
+        List<ItemStack> stacks = super.getDrops(pState, pBuilder);
         stacks.add(new ItemStack(BlockInit.ROPE.get(), 1));
         return stacks;
     }

@@ -39,7 +39,7 @@ public class BlockCropStake extends Block {
                 }
                 return InteractionResult.SUCCESS;
             }
-        } else if (!stack.isEmpty() && stack.getItem() == Item.BY_BLOCK.get(BlockInit.ROPE.get())) {
+        } else if (!stack.isEmpty() && stack.getItem() == BlockInit.ROPE.get().asItem()) {
             pLevel.setBlock(pPos, BlockInit.STAKE_TIED.get().defaultBlockState(), 2);
             pLevel.blockUpdated(pPos, BlockInit.STAKE_TIED.get());
             if (!pPlayer.getAbilities().instabuild) {

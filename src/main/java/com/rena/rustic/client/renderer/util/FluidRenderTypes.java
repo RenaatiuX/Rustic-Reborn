@@ -12,13 +12,11 @@ public class FluidRenderTypes extends RenderType {
         super(pName, pFormat, pMode, pBufferSize, pAffectsCrumbling, pSortOnUpload, pSetupState, pClearState);
     }
 
-    public static final RenderType RESIZABLE = RenderType.create(RusticReborn.MOD_ID + ":resizable_cuboid", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 256, true, false,
+    public static final RenderType RESIZABLE = RenderType.create(RusticReborn.MOD_ID + ":resizable_cuboid", DefaultVertexFormat.BLOCK, VertexFormat.Mode.QUADS, 256, true, false,
             RenderType.CompositeState.builder()
                     .setShaderState(RenderType.RENDERTYPE_TRANSLUCENT_SHADER)
-                    .setTextureState(new RenderStateShard.TextureStateShard(InventoryMenu.BLOCK_ATLAS, false, false))
-                    .setCullState(CULL)
-                    .setLightmapState(LIGHTMAP)
-                    .setWriteMaskState(COLOR_WRITE)
+                    .setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)
+                    .setCullState(NO_CULL)
                     .setLightmapState(LIGHTMAP)
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .createCompositeState(true));

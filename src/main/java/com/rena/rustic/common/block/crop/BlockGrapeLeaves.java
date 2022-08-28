@@ -1,6 +1,7 @@
 package com.rena.rustic.common.block.crop;
 
 import com.google.common.base.Predicate;
+import com.rena.rustic.common.block.BlockLattice;
 import com.rena.rustic.common.block.BlockRope;
 import com.rena.rustic.common.block.BlockRopeBase;
 import com.rena.rustic.core.BlockInit;
@@ -43,11 +44,7 @@ public class BlockGrapeLeaves extends BlockRopeBase implements BonemealableBlock
     public static final IntegerProperty DIST = IntegerProperty.create("distance", 0, 1);
 
     public static final EnumProperty<Direction.Axis> AXIS = EnumProperty.<Direction.Axis>create("axis",
-            Direction.Axis.class, new Predicate<Direction.Axis>() {
-                public boolean apply(@Nullable Direction.Axis p_apply_1_) {
-                    return p_apply_1_ != Direction.Axis.Y;
-                }
-            });
+            Direction.Axis.class, axis -> axis != Direction.Axis.Y);
 
     public static final VoxelShape BRANCH_Z_AABB = Shapes.create(0.1875F, 0.1875F, 0.0F, 0.8125F, 0.8125F, 1.0F);
     public static final VoxelShape BRANCH_X_AABB = Shapes.create(0.0F, 0.1875F, 0.1875F, 1.0F, 0.8125F, 0.8125F);
@@ -85,9 +82,9 @@ public class BlockGrapeLeaves extends BlockRopeBase implements BonemealableBlock
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        /*if (pState.getValue(DIST) < 1) {
-            return Block.FULL_BLOCK_AABB;
-        }*/
+        if (pState.getValue(DIST) < 1) {
+            return Shapes.block();
+        }
         if (pState.getValue(AXIS) == Direction.Axis.Z) {
             return BRANCH_Z_AABB;
         } else {
@@ -133,11 +130,11 @@ public class BlockGrapeLeaves extends BlockRopeBase implements BonemealableBlock
 
         boolean isSame = testState.getBlock() == state.getBlock() && (testState.getValue(AXIS) == state.getValue(AXIS));
         boolean isRope = testState.getBlock() == BlockInit.ROPE.get() && state.getValue(AXIS) == testState.getValue(BlockRope.AXIS);
-        /*boolean isSideSolid = world.isSideSolid(pos.relative(facing), facing.getOpposite(), false);
-        boolean isTiedStake = testState.getBlock() == ModBlocks.STAKE_TIED;
-        boolean isLattice = testState.getBlock() instanceof BlockLattice;*/
+        boolean isSideSolid = Block.isFaceFull(world.getBlockState(pos.relative(facing)).getShape(world, pos), facing.getOpposite());
+        boolean isTiedStake = testState.getBlock() == BlockInit.STAKE_TIED.get();
+        boolean isLattice = testState.getBlock() instanceof BlockLattice;
 
-        return isSame || isRope; /*|| isSideSolid || isTiedStake || isLattice;*/
+        return isSame || isRope || isSideSolid || isTiedStake || isLattice;
     }
 
     @Override
@@ -187,7 +184,7 @@ public class BlockGrapeLeaves extends BlockRopeBase implements BonemealableBlock
     @Override
     public boolean isValidBonemealTarget(BlockGetter pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
         if (pState.getValue(DIST) > 0) {
-            return !pState.getValue(GRAPES); /*&& pLevel.isAirBlock(pPos.below());*/
+            return !pState.getValue(GRAPES) && pLevel.getBlockState(pPos.below()).isAir();
         }
         return canSpread(pLevel, pPos, pState);
     }
@@ -206,7 +203,6 @@ public class BlockGrapeLeaves extends BlockRopeBase implements BonemealableBlock
         }
     }
 
-    @SuppressWarnings("incomplete-switch")
     public boolean canSpread(BlockGetter world, BlockPos pos, BlockState state) {
         if (state.getValue(DIST) == 0) {
             switch (state.getValue(AXIS)) {
@@ -220,12 +216,13 @@ public class BlockGrapeLeaves extends BlockRopeBase implements BonemealableBlock
                             && world.getBlockState(pos.north()).getValue(BlockRope.AXIS) == state.getValue(AXIS))
                             || (world.getBlockState(pos.south()).getBlock() == BlockInit.ROPE.get()
                             && world.getBlockState(pos.south()).getValue(BlockRope.AXIS) == state.getValue(AXIS));
+                default:
+                    return false;
             }
         }
         return false;
     }
 
-    @SuppressWarnings("incomplete-switch")
     public void spread(Level world, BlockPos pos, BlockState state) {
         if (state.getValue(DIST) < 1) {
             switch (state.getValue(AXIS)) {
@@ -254,6 +251,8 @@ public class BlockGrapeLeaves extends BlockRopeBase implements BonemealableBlock
                     } else if (southRope) {
                         spreadToValidRope(world, pos, pos.south(), state);
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -290,7 +289,7 @@ public class BlockGrapeLeaves extends BlockRopeBase implements BonemealableBlock
     @Override
     public BlockState rotate(BlockState pState, Rotation pRotation) {
         return switch (pRotation) {
-            case COUNTERCLOCKWISE_90, CLOCKWISE_90 -> switch ((Direction.Axis) pState.getValue(AXIS)) {
+            case COUNTERCLOCKWISE_90, CLOCKWISE_90 -> switch ( pState.getValue(AXIS)) {
                 case X -> pState.setValue(AXIS, Direction.Axis.Z);
                 case Z -> pState.setValue(AXIS, Direction.Axis.X);
                 default -> pState;

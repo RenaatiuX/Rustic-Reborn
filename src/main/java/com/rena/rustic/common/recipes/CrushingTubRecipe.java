@@ -2,7 +2,6 @@ package com.rena.rustic.common.recipes;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.rena.rustic.common.block_entity.CrushingTubTileEntitiy;
 import com.rena.rustic.core.RecipeInit;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

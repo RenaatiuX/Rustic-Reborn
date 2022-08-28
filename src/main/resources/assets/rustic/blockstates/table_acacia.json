@@ -1,13 +1,47 @@
 {
 	"multipart": [
-		{ "apply": {"model": "rustic:table_acacia_top"} },
-		{ "when": {"nw": "true"},
-		  "apply": {"model": "rustic:table_acacia_leg_nw"} },
-		{ "when": {"ne": "true"},
-		  "apply": {"model": "rustic:table_acacia_leg_nw", "y": 90} },
-		{ "when": {"se": "true"},
-		  "apply": {"model": "rustic:table_acacia_leg_nw", "y": 180} },
-		{ "when": {"sw": "true"},
-		  "apply": {"model": "rustic:table_acacia_leg_nw", "y": 270} }
+		{
+		  "apply": {
+
+			"model": "rustic:block/table_acacia_top"}
+		},
+		{ "when":
+		{
+			"north": "true"
+		},
+		  "apply":
+		  {
+			  "model": "rustic:block/table_acacia_leg_nw"
+		  }
+		},
+		{ "when":
+		{
+			"east": "true"
+		},
+		  "apply":
+		  {
+			  "model": "rustic:block/table_acacia_leg_nw", "y": 90
+		  }
+		},
+		{
+			"when":
+			{
+				"south": "true"
+			},
+		  "apply":
+		  {
+			  "model": "rustic:block/table_acacia_leg_nw", "y": 180
+		  }
+		},
+		{
+			"when":
+			{
+				"west": "true"
+			},
+		  "apply":
+		  {
+			  "model": "rustic:block/table_acacia_leg_nw", "y": 270
+		  }
+		}
 	]
 }

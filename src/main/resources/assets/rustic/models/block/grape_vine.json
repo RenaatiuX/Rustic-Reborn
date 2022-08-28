@@ -1,8 +1,8 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-	"1": "rustic:blocks/grape_vine",
-	"particle": "rustic:blocks/grape_vine"
+	"1": "rustic:block/grape_vine",
+	"particle": "rustic:block/grape_vine"
     },
     "elements": [
         {

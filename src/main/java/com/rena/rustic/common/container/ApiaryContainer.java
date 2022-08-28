@@ -1,12 +1,11 @@
 package com.rena.rustic.common.container;
 
-import com.rena.rustic.common.block_entity.ApiaryTileEntity;
+import com.rena.rustic.common.blockentity.ApiaryTileEntity;
 import com.rena.rustic.core.ContainerInit;
 import com.rena.rustic.core.ItemInit;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
 
 public class ApiaryContainer extends BaseTeContainer<ApiaryTileEntity> {
 

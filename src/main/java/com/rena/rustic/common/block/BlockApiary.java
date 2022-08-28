@@ -1,9 +1,7 @@
 package com.rena.rustic.common.block;
 
-import com.rena.rustic.common.block_entity.ApiaryTileEntity;
-import com.rena.rustic.common.block_entity.BarrelTileEntity;
+import com.rena.rustic.common.blockentity.ApiaryTileEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -36,7 +34,7 @@ public class BlockApiary extends HorizontalDirectionalBlock implements EntityBlo
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+        return InteractionResult.CONSUME;
     }
 
     @Override

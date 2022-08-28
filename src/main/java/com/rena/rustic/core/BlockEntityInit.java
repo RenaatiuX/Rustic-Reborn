@@ -1,10 +1,7 @@
 package com.rena.rustic.core;
 
 import com.rena.rustic.RusticReborn;
-import com.rena.rustic.common.block.BlockBarrel;
-import com.rena.rustic.common.block_entity.*;
-import net.minecraft.world.level.block.entity.BarrelBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import com.rena.rustic.common.blockentity.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

@@ -1,5 +1,7 @@
 {
 	"variants": {
-		"normal":	{ "model": "rustic:fertile_soil" }
+		"": {
+			"model": "rustic:block/fertile_soil"
+		}
 	}
 }

@@ -1,7 +1,6 @@
 package com.rena.rustic.common.block;
 
-import com.rena.rustic.common.block_entity.BarrelTileEntity;
-import com.rena.rustic.common.block_entity.BrewingBarrelTileEntity;
+import com.rena.rustic.common.blockentity.BrewingBarrelTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rustic:block/chair_stripped_acacia",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "rustic:block/chair_stripped_acacia",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "rustic:block/chair_stripped_acacia",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "rustic:block/chair_stripped_acacia",
+      "y": 270
+    }
+  }
+}

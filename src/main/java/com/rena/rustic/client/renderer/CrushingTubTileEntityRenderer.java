@@ -20,9 +20,13 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<CrushingTubTileEntitiy> {
 
@@ -37,6 +41,9 @@ public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<Crushi
     @Override
     public void render(CrushingTubTileEntitiy te, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
         if (!te.getItem(0).isEmpty()) {
+            pPoseStack.pushPose();
+            drawFluid(te, pPoseStack, pBufferSource, 1F * 0.0625F, 0F * 0.0625F, 1F * 0.0625F, 15F * 0.0625F, 7F * 0.0625F, 15F * 0.0625F, pPackedLight);
+            pPoseStack.popPose();
             ItemStack stack = te.getItem(0);
             int itemCount = (int) Math.ceil((stack.getCount()) / 8.0);
             Random rand = new Random(10);
@@ -51,49 +58,32 @@ public class CrushingTubTileEntityRenderer implements BlockEntityRenderer<Crushi
                 pPoseStack.popPose();
             }
         }
-        if (te.getTank().getFluidAmount() > 0) {
-            FluidStack fluid = te.getTank().getFluidInTank(0);
-            if (fluid.isEmpty()) {
-                return;
-            }
-            pPoseStack.pushPose();
-            int capacity = te.getCapacity();
-            int amount = te.getAmount();
-            /*
-            int c = fluid.getFluid().getAttributes().getColor();
-            int blue = c & 0xFF;
-            int green = (c >> 8) & 0xFF;
-            int red = (c >> 16) & 0xFF;
-            int a = (c >> 24) & 0xFF;
+    }
 
-            TextureAtlasSprite sprite = FluidUtils.getFluidTexture(fluid, FluidUtils.FluidType.STILL);
+    private void drawFluid(CrushingTubTileEntitiy te, PoseStack poseStack, MultiBufferSource source, float x, float y, float z, float width, float height, float depth, int light) {
+        Fluid fluid = te.getTank().getFluid().getFluid();
+        if (fluid == Fluids.EMPTY)
+            return;
 
-            if (sprite == null) return;
+        TextureAtlasSprite sprite = ForgeHooksClient.getFluidSprites(te.getLevel(), te.getBlockPos(), fluid.defaultFluidState())[0];
 
-            diffU = maxU - minU;
-            diffV = maxV - minV;
+        float minU = sprite.getU0();
+        float maxU = Math.min(minU + (sprite.getU1() - minU) * depth, sprite.getU1());
+        float minV = sprite.getV0();
+        float maxV = Math.min(minV + (sprite.getV1() - minV) * width, sprite.getV1());
+        int waterColor = fluid.getAttributes().getColor(te.getLevel(), te.getBlockPos());
+        float red = (float) (waterColor >> 16 & 255) / 255.0F;
+        float green = (float) (waterColor >> 8 & 255) / 255.0F;
+        float blue = (float) (waterColor & 255) / 255.0F;
 
-            minU = sprite.getU0() + diffU * 0.0625f;
-            maxU = sprite.getU1() - diffU * 0.0625f;
-            minV = sprite.getV0() + diffV * 0.0625f;
-            maxV = sprite.getV1() - diffV * 0.0625f;
-            int light = RenderUtils.calculateGlowLight(pPackedLight, fluid);
-            pPoseStack.translate(0, 1, 0);
-            Matrix4f calc = pPoseStack.last().pose();
-            VertexConsumer buffer = pBufferSource.getBuffer(RenderType.solid());
-            buffer.vertex(calc, 0.0625f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.0625f).color(red, green, blue, a).uv(minU, minV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
-            buffer.vertex(calc, 0.9375f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.0625f).color(red, green, blue, a).uv(maxU, minV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
-            buffer.vertex(calc, 0.9375f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.9375f).color(red, green, blue, a).uv(maxU, maxV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
-            buffer.vertex(calc, 0.0625f, 0.0625f + 0.5f * ((float) amount / (float) capacity), 0.9375f).color(red, green, blue, a).uv(minU, maxV).uv2(light).normal(0f, -1f, 0f).overlayCoords(pPackedOverlay).endVertex();
-            pPoseStack.popPose();*/
-            RenderSystem.enableBlend();
-            VertexConsumer buffer = pBufferSource.getBuffer(FluidRenderTypes.RESIZABLE);
-            pPoseStack.scale(1F, 0.5f*((float)amount/(float)capacity), 1F);
-            RenderResizableCuboid.INSTANCE.renderCubeTop(FluidUtils.getFluidModel(fluid, FluidUtils.STAGES - 1),
-                    pPoseStack, buffer, RenderUtils.getColorARGB(fluid, 0.1F),
-                    RenderUtils.calculateGlowLight(pPackedLight, fluid), pPackedOverlay);
-            RenderSystem.disableBlend();
-            pPoseStack.popPose();
-        }
+        height *= ((double) te.getTank().getFluidAmount() / (double) te.getTank().getCapacity());
+
+        VertexConsumer consumer = source.getBuffer(RenderType.translucent());
+        Matrix4f matrix = poseStack.last().pose();
+
+        consumer.vertex(matrix, x, y + height, z).color(red, green, blue, 1.0F).uv(maxU, minV).uv2(light).normal(0.0F, 1.0F, 0.0F).endVertex();
+        consumer.vertex(matrix, x, y + height, z + depth).color(red, green, blue, 1.0F).uv(minU, minV).uv2(light).normal(0.0F, 1.0F, 0.0F).endVertex();
+        consumer.vertex(matrix, x + width, y + height, z + depth).color(red, green, blue, 1.0F).uv(minU, maxV).uv2(light).normal(0.0F, 1.0F, 0.0F).endVertex();
+        consumer.vertex(matrix, x + width, y + height, z).color(red, green, blue, 1.0F).uv(maxU, maxV).uv2(light).normal(0.0F, 1.0F, 0.0F).endVertex();
     }
 }

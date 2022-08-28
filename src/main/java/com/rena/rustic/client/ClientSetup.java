@@ -26,7 +26,7 @@ public class ClientSetup {
         ItemBlockRenderTypes.setRenderLayer(FluidInit.APPLE_JUICE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(FluidInit.APPLE_JUICE_FLOWING.get(), RenderType.translucent());
 
-        ItemBlockRenderTypes.setRenderLayer(BlockInit.CRUSHING_TUB.get(), RenderType.translucent());
+        //ItemBlockRenderTypes.setRenderLayer(BlockInit.CRUSHING_TUB.get(), RenderType.cutout());
 
         MenuScreens.register(ContainerInit.APIARY_CONTAINER.get(), ApiaryScreen::new);
 

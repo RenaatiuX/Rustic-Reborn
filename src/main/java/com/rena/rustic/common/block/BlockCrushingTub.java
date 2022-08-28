@@ -37,7 +37,7 @@ public class BlockCrushingTub extends Block implements EntityBlock {
     protected static final VoxelShape TUB_AABB = Shapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D);
 
     public BlockCrushingTub() {
-        super(BlockBehaviour.Properties.of(Material.WOOD).strength(1.5f).sound(SoundType.WOOD).dynamicShape().noOcclusion());
+        super(BlockBehaviour.Properties.of(Material.WOOD).strength(1.5f).sound(SoundType.WOOD).noOcclusion());
     }
 
     @Override

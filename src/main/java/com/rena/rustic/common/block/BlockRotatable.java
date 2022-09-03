@@ -29,7 +29,7 @@ public class BlockRotatable extends Block {
 
     @Override
     public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation((Direction) pState.getValue(HORIZONTAL_FACING)));
+        return pState.rotate(pMirror.getRotation(pState.getValue(HORIZONTAL_FACING)));
     }
 
     @Nullable

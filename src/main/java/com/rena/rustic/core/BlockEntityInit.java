@@ -15,5 +15,6 @@ public class BlockEntityInit {
     public static final RegistryObject<BlockEntityType<CrushingTubTileEntitiy>> CRUSHING_TUB_TILE_ENTITY = TES.register("crushing_tub", () -> BlockEntityType.Builder.of(CrushingTubTileEntitiy::new, BlockInit.CRUSHING_TUB.get()).build(null));
     public static final RegistryObject<BlockEntityType<BarrelTileEntity>> BARRELTILE_ENTITY = TES.register("barrel", () -> BlockEntityType.Builder.of(BarrelTileEntity::new, BlockInit.BARREL.get()).build(null));
     public static final RegistryObject<BlockEntityType<BrewingBarrelTileEntity>> BREWING_BARREL_TILE_ENTITY = TES.register("brewing_barrel", () -> BlockEntityType.Builder.of(BrewingBarrelTileEntity::new, BlockInit.BREWING_BARREL.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CabinetTileEntity>> CABINET = TES.register("cabinet", () -> BlockEntityType.Builder.of(CabinetTileEntity::new, BlockInit.CABINET.get()).build(null));
 
 }

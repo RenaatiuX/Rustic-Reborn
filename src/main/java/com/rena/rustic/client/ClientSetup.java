@@ -1,5 +1,6 @@
 package com.rena.rustic.client;
 
+import com.rena.rustic.client.renderer.CabinetRenderer;
 import com.rena.rustic.client.renderer.CrushingTubTileEntityRenderer;
 import com.rena.rustic.client.screens.ApiaryScreen;
 import com.rena.rustic.common.item.VaseItem;
@@ -32,6 +33,7 @@ public class ClientSetup {
         MenuScreens.register(ContainerInit.APIARY_CONTAINER.get(), ApiaryScreen::new);
 
         BlockEntityRenderers.register(BlockEntityInit.CRUSHING_TUB_TILE_ENTITY.get(), CrushingTubTileEntityRenderer::new);
+        BlockEntityRenderers.register(BlockEntityInit.CABINET.get(), CabinetRenderer::new);
 
         ItemProperties.register(BlockInit.VASE.get().asItem(), new ResourceLocation("variant"), (stack, clientWorld, living, another) -> VaseItem.getVariant(stack));
 

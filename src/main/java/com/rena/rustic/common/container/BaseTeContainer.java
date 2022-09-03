@@ -17,7 +17,7 @@ public abstract class BaseTeContainer<T extends BlockEntity> extends UtilContain
     }
 
     /**
-     * client side, make sure that the pos of hte te is written onto the buffer
+     * client side, make sure that the pos of the te is written onto the buffer
      */
     public BaseTeContainer(MenuType<?> type, int id, Inventory playerInv, FriendlyByteBuf buffer){
         this(type, id, playerInv, getClientBlockEntity(playerInv, buffer));

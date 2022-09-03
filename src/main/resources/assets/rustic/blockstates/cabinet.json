@@ -1,27 +1,28 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"model": "rustic:cabinet"
-	},
 	"variants": {
-		"top": {
-			"true": {},
-			"false": {}
-		},
-		"bottom": {
-			"true": {},
-			"false": {}
-		},
-		"mirror": {
-			"true": {},
-			"false": {}
-		},
-		"facing": {
-			"north": {},
-			"south": {},
-			"east": {},
-			"west": {}
-		},
-		"inventory": []
+		"facing=north,connection=not,mirror=false": {"model": "rustic:block/cabinet"},
+		"facing=east,connection=not,mirror=false": {"model": "rustic:block/cabinet", "y": 90},
+		"facing=south,connection=not,mirror=false": {"model": "rustic:block/cabinet", "y": 180},
+		"facing=west,connection=not,mirror=false": {"model": "rustic:block/cabinet", "y": 270},
+		"facing=north,connection=top,mirror=false": {"model": "rustic:block/cabinet"},
+		"facing=east,connection=top,mirror=false": {"model": "rustic:block/cabinet", "y": 90},
+		"facing=south,connection=top,mirror=false": {"model": "rustic:block/cabinet", "y": 180},
+		"facing=west,connection=top,mirror=false": {"model": "rustic:block/cabinet", "y": 270},
+		"facing=north,connection=bottom,mirror=false": {"model": "rustic:block/cabinet"},
+		"facing=east,connection=bottom,mirror=false": {"model": "rustic:block/cabinet", "y": 90},
+		"facing=south,connection=bottom,mirror=false": {"model": "rustic:block/cabinet", "y": 180},
+		"facing=west,connection=bottom,mirror=false": {"model": "rustic:block/cabinet", "y": 270},
+		"facing=north,connection=not,mirror=true": {"model": "rustic:block/cabinet"},
+		"facing=east,connection=not,mirror=true": {"model": "rustic:block/cabinet", "y": 90},
+		"facing=south,connection=not,mirror=true": {"model": "rustic:block/cabinet", "y": 180},
+		"facing=west,connection=not,mirror=true": {"model": "rustic:block/cabinet", "y": 270},
+		"facing=north,connection=top,mirror=true": {"model": "rustic:block/cabinet"},
+		"facing=east,connection=top,mirror=true": {"model": "rustic:block/cabinet", "y": 90},
+		"facing=south,connection=top,mirror=true": {"model": "rustic:block/cabinet", "y": 180},
+		"facing=west,connection=top,mirror=true": {"model": "rustic:block/cabinet", "y": 270},
+		"facing=north,connection=bottom,mirror=true": {"model": "rustic:block/cabinet"},
+		"facing=east,connection=bottom,mirror=true": {"model": "rustic:block/cabinet", "y": 90},
+		"facing=south,connection=bottom,mirror=true": {"model": "rustic:block/cabinet", "y": 180},
+		"facing=west,connection=bottom,mirror=true": {"model": "rustic:block/cabinet", "y": 270}
 	}
 }

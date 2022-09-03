@@ -30,6 +30,7 @@ public class BlockInit {
     public static final RegistryObject<BlockCrushingTub> CRUSHING_TUB = register("crushing_tub", BlockCrushingTub::new, ModTabs.FARMING_TAB);
     public static final RegistryObject<BlockBarrel> BARREL = register("barrel", BlockBarrel::new, ModTabs.FARMING_TAB);
     public static final RegistryObject<BlockBrewingBarrel> BREWING_BARREL = register("brewing_barrel", BlockBrewingBarrel::new, ModTabs.FARMING_TAB);
+    public static final RegistryObject<BlockCabinet> CABINET = register("cabinet", BlockCabinet::new, ModTabs.FARMING_TAB);
 
     public static final RegistryObject<Block> CHAIR_OAK = register("chair_oak", () -> new BlockChair(Block.Properties.copy(Blocks.OAK_PLANKS)), ModTabs.FARMING_TAB);
     public static final RegistryObject<Block> CHAIR_SPRUCE = register("chair_spruce", () -> new BlockChair(Block.Properties.copy(Blocks.SPRUCE_PLANKS)), ModTabs.FARMING_TAB);

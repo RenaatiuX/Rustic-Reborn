@@ -28,5 +28,7 @@ public class LayerDefinitions {
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(CABINET, () -> CabinetModel.createLayer(false));
         event.registerLayerDefinition(CABINET_MIRROR, () -> CabinetModel.createLayer(true));
+        event.registerLayerDefinition(DOUBLE_CABINET, () -> DoubleCabinetModel.createLayer(false));
+        event.registerLayerDefinition(DOUBLE_CABINET_MIRROR, () -> DoubleCabinetModel.createLayer(true));
     }
 }

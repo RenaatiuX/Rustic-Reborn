@@ -9,8 +9,12 @@ import com.rena.rustic.core.BlockInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.CompoundContainer;
@@ -41,7 +45,6 @@ public class CabinetTileEntity extends BlockEntity implements LidBlockEntity, Co
     public float prevLidAngle = 0;
     public int numPlayersUsing = 0;
     private boolean hasCustomName = false;
-    public ItemStack material = ItemStack.EMPTY;
     private Component name = new TranslatableComponent(RusticReborn.MOD_ID + ".container.cabinet");
 
     private ItemStackHandlerRustic inventory = new ItemStackHandlerRustic(27) {
@@ -76,7 +79,7 @@ public class CabinetTileEntity extends BlockEntity implements LidBlockEntity, Co
                     SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
         }
 
-        if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
+        if ((this.numPlayersUsing == 0 && this.lidAngle > 0.0F) || (this.numPlayersUsing > 0 && this.lidAngle < 1.0F)) {
             float f2 = this.lidAngle;
 
             if (this.numPlayersUsing > 0) {
@@ -99,6 +102,7 @@ public class CabinetTileEntity extends BlockEntity implements LidBlockEntity, Co
             if (this.lidAngle < 0.0F) {
                 this.lidAngle = 0.0F;
             }
+
         }
     }
 
@@ -115,9 +119,6 @@ public class CabinetTileEntity extends BlockEntity implements LidBlockEntity, Co
         if (pTag.contains("numUsers")) {
             numPlayersUsing = pTag.getInt("numUsers");
         }
-        if (pTag.contains("material")) {
-            material = ItemStack.of(pTag.getCompound("material"));
-        }
     }
 
     @Override
@@ -127,7 +128,6 @@ public class CabinetTileEntity extends BlockEntity implements LidBlockEntity, Co
         if (hasCustomName)
             pTag.putString("CustomName", Component.Serializer.toJson(this.name));
         pTag.putInt("numUsers", numPlayersUsing);
-        pTag.put("material", material.serializeNBT());
     }
 
     public ItemStackHandler getInventory() {
@@ -187,7 +187,7 @@ public class CabinetTileEntity extends BlockEntity implements LidBlockEntity, Co
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return false;
+        return true;
     }
 
     @Override
@@ -217,7 +217,7 @@ public class CabinetTileEntity extends BlockEntity implements LidBlockEntity, Co
             if (max == this.getBlockPos()) {
                 combined = new CompoundContainer(this, this.getOtherTe());
             }
-            ChestMenu.sixRows(pContainerId, pInventory, combined);
+            return ChestMenu.sixRows(pContainerId, pInventory, combined);
         }
         return ChestMenu.threeRows(pContainerId, pInventory,this);
     }
@@ -269,5 +269,30 @@ public class CabinetTileEntity extends BlockEntity implements LidBlockEntity, Co
     @Nullable
     public CabinetTileEntity getOtherTe(){
         return isDouble() ? (CabinetTileEntity) level.getBlockEntity(getOther()) : this;
+    }
+
+    public boolean isMirror(){
+        return this.getBlockState().getValue(BlockCabinet.MIRROR);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        this.saveAdditional(tag);
+        return tag;
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag tag = pkt.getTag();
+        if (tag != null) {
+            this.handleUpdateTag(tag);
+        }
     }
 }
